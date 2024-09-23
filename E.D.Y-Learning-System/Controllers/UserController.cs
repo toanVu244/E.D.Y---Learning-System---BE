@@ -50,7 +50,7 @@ namespace E.D.Y_Learning_System.Controllers
             if (!result)
                 return StatusCode(500, "An error occurred while creating the user.");
 
-            return CreatedAtAction(nameof(GetUserById), new { id = newUser.UserID }, newUser);
+            return CreatedAtAction(nameof(GetUserById), new { id = newUser.UserId }, newUser);
         }
 
         // PUT: api/user/{id}
@@ -64,7 +64,7 @@ namespace E.D.Y_Learning_System.Controllers
             if (user == null)
                 return NotFound("User not found");
 
-            updatedUser.UserID = user.UserID; // Ensure ID consistency
+            updatedUser.UserId = user.UserId; // Ensure ID consistency
             var result = await _userService.UpdateUserAsync(updatedUser);
 
             if (!result)
