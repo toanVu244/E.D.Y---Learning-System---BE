@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BusinessObject.Models;
+using E.D.Y_Serivce.Implementations;
+using E.D.Y_Serivce.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace E.D.Y_Learning_System.Controllers
 {
@@ -7,10 +10,82 @@ namespace E.D.Y_Learning_System.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult GetAllUser()
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
         {
-            return null;
+            _userService = userService;
+        }
+
+        // GET: api/user
+        [HttpGet]
+        public async Task<IActionResult> GetAllUser()
+        {
+            var users = await _userService.GetAllUserAsync();
+            if (users == null)
+                return NotFound();
+
+            return Ok(users);
+        }
+
+        // GET: api/user/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
+
+        // POST: api/user
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] User newUser)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.CreateUserAsync(newUser);
+            if (!result)
+                return StatusCode(500, "An error occurred while creating the user.");
+
+            return CreatedAtAction(nameof(GetUserById), new { id = newUser.UserID }, newUser);
+        }
+
+        // PUT: api/user/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound("User not found");
+
+            updatedUser.UserID = user.UserID; // Ensure ID consistency
+            var result = await _userService.UpdateUserAsync(updatedUser);
+
+            if (!result)
+                return StatusCode(500, "An error occurred while updating the user.");
+
+            return NoContent();
+        }
+
+        // DELETE: api/user/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            var result = await _userService.DeleteUserAsync(id);
+            if (!result)
+                return StatusCode(500, "An error occurred while deleting the user.");
+
+            return NoContent();
         }
     }
 }

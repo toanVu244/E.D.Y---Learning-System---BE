@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Interfaces
 {
-    internal interface IUserRepository
+ public interface IUserRepository : IGenericRepository<User>
     {
+        public Task<User> getUserbyEmailAndPass(string email, string pass);
     }
 }
