@@ -1,9 +1,11 @@
 ﻿using BusinessObject.Models;
 using E.D.Y_Repository.Implementaions;
 using E.D.Y_Serivce.Interfaces;
+using E.D.Y_Serivce.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,9 +13,12 @@ namespace E.D.Y_Serivce.Implementations
 {
     public class AchivementService : IAchivementService
     {
-        public async Task<bool> CreateAchivementAsync(Achivement Achivement)
+        public async Task<bool> CreateAchivementAsync(AchivementViewModel Achivement)
         {
-            var result = await AchivementRepository.Instance.InsertAsync(Achivement);
+            Achivement newAchivement = new Achivement();
+            newAchivement.Name = Achivement.Name;
+            newAchivement.Condition = Achivement.Condition;
+            var result = await AchivementRepository.Instance.InsertAsync(newAchivement);
             return result;
         }
 
@@ -25,7 +30,7 @@ namespace E.D.Y_Serivce.Implementations
 
         public async Task<Achivement> GetAchivementByIdAsync(int id)
         {
-            var result = await AchivementRepository.Instance.GetAchivementByUserID(id);
+            var result = await AchivementRepository.Instance.GetAchivementByID(id);
             return result;
         }
 
@@ -35,10 +40,26 @@ namespace E.D.Y_Serivce.Implementations
             return result;
         }
 
-        public async Task<bool> UpdateAchivementAsync(Achivement Achivement)
+        public async Task<bool> UpdateAchivementAsync(AchivementViewModel Achivement)
         {
-            var result = await AchivementRepository.Instance.UpdateAsync(Achivement);
-            return result;
+            try
+            {
+                var achivement = await GetAchivementByIdAsync(4);
+                achivement.Name = Achivement.Name;
+                achivement.Condition = Achivement.Condition;
+                if (achivement == null)
+                {
+                    return false;
+                }
+                var result = await AchivementRepository.Instance.UpdateAsync(achivement);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+
+                return false;
+            }
         }
     }
 }

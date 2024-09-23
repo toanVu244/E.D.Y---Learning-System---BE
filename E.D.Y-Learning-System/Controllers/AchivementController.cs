@@ -1,4 +1,6 @@
-﻿using E.D.Y_Serivce.Interfaces;
+﻿using BusinessObject.Models;
+using E.D.Y_Serivce.Interfaces;
+using E.D.Y_Serivce.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +33,60 @@ namespace E.D.Y_Learning_System.Controllers
             catch (Exception ex)
             {
 
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("add-achivement")]
+        public async Task<IActionResult> AddAchivement(AchivementViewModel achivement)
+        {
+            try
+            {
+                var result = await _achivementService.CreateAchivementAsync(achivement);
+                if (result != true)
+                {
+                    return NotFound();
+                }
+                return Ok("Create Achivement Successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("edit-achivement")]
+        public async Task<IActionResult> UpdateAchivement(AchivementViewModel achivement)
+        {
+            try
+            {
+                var result = await _achivementService.UpdateAchivementAsync(achivement);
+                if (result != true)
+                {
+                    return NotFound();
+                }
+                return Ok("Update Achivement Successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("delete-achivement")]
+        public async Task<IActionResult> DeleteAchivement(int id)
+        {
+            try
+            {
+                var result = await _achivementService.DeleteAchivementAsync(id);
+                if (result != true)
+                {
+                    return NotFound();
+                }
+                return Ok("Delete Achivement Successfully");
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }

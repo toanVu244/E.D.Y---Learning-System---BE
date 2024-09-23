@@ -53,10 +53,8 @@ public partial class EdyContext : DbContext
 
             entity.ToTable("Achivement");
 
-            entity.Property(e => e.AchiveId)
-                .ValueGeneratedNever()
-                .HasColumnName("AchiveID");
-            entity.Property(e => e.Condition).HasMaxLength(50);
+            entity.Property(e => e.AchiveId).HasColumnName("AchiveID");
+            entity.Property(e => e.Condition).HasColumnType("nvarchar(max)");
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
@@ -64,9 +62,7 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("Course");
 
-            entity.Property(e => e.CourseId)
-                .ValueGeneratedNever()
-                .HasColumnName("CourseID");
+            entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.Category)
                 .HasMaxLength(10)
                 .IsFixedLength();
@@ -85,9 +81,6 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("DetailScore");
 
-            entity.Property(e => e.Id)
-                .HasMaxLength(10)
-                .IsFixedLength();
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
             entity.Property(e => e.ScoreId).HasColumnName("ScoreID");
             entity.Property(e => e.UserAnsware).HasMaxLength(50);
@@ -107,9 +100,7 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("Feedback");
 
-            entity.Property(e => e.FeedbackId)
-                .ValueGeneratedNever()
-                .HasColumnName("FeedbackID");
+            entity.Property(e => e.FeedbackId).HasColumnName("FeedbackID");
             entity.Property(e => e.Content).HasMaxLength(50);
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.UserId)
@@ -132,9 +123,7 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("Lesson");
 
-            entity.Property(e => e.LessonId)
-                .ValueGeneratedNever()
-                .HasColumnName("LessonID");
+            entity.Property(e => e.LessonId).HasColumnName("LessonID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.Detail).HasMaxLength(50);
             entity.Property(e => e.Picture).HasMaxLength(250);
@@ -151,10 +140,7 @@ public partial class EdyContext : DbContext
 
             entity.ToTable("Notification");
 
-            entity.Property(e => e.NotifiId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("NotifiID");
+            entity.Property(e => e.NotifiId).HasColumnName("NotifiID");
             entity.Property(e => e.ContentNotifi).HasMaxLength(50);
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.UserId)
@@ -171,9 +157,7 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("Payment");
 
-            entity.Property(e => e.PaymentId)
-                .ValueGeneratedNever()
-                .HasColumnName("PaymentID");
+            entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.Money).HasColumnName("money");
             entity.Property(e => e.Title)
@@ -194,9 +178,7 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("Question");
 
-            entity.Property(e => e.QuestionId)
-                .ValueGeneratedNever()
-                .HasColumnName("QuestionID");
+            entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
             entity.Property(e => e.Answare1).HasMaxLength(50);
             entity.Property(e => e.Answare2).HasMaxLength(50);
             entity.Property(e => e.Answare3).HasMaxLength(50);
@@ -217,9 +199,7 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("Score");
 
-            entity.Property(e => e.ScoreId)
-                .ValueGeneratedNever()
-                .HasColumnName("ScoreID");
+            entity.Property(e => e.ScoreId).HasColumnName("ScoreID");
             entity.Property(e => e.CompleteTime).HasColumnType("date");
             entity.Property(e => e.Score1)
                 .HasColumnType("decimal(5, 2)")
@@ -247,9 +227,7 @@ public partial class EdyContext : DbContext
 
             entity.ToTable("Test");
 
-            entity.Property(e => e.TesId)
-                .ValueGeneratedNever()
-                .HasColumnName("TesID");
+            entity.Property(e => e.TesId).HasColumnName("TesID");
             entity.Property(e => e.CreateAt).HasColumnType("date");
             entity.Property(e => e.Description).HasMaxLength(50);
             entity.Property(e => e.LessonId).HasColumnName("LessonID");
@@ -284,9 +262,7 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("User_Achivement");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AchiveId).HasColumnName("AchiveID");
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.UserId)
@@ -307,10 +283,7 @@ public partial class EdyContext : DbContext
         {
             entity.ToTable("User_Course");
 
-            entity.Property(e => e.Id)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.EnrollDate).HasColumnType("date");
             entity.Property(e => e.UserId)

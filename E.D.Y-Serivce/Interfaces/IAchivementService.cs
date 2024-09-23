@@ -1,4 +1,5 @@
 ﻿using BusinessObject.Models;
+using E.D.Y_Serivce.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace E.D.Y_Serivce.Interfaces
     {
         public Task<List<Achivement>> GetAllAchivementAsync();
         public Task<Achivement> GetAchivementByIdAsync(int id);
-        public Task<bool> CreateAchivementAsync(Achivement Achivement);
-        public Task<bool> UpdateAchivementAsync(Achivement Achivement);
+        public Task<bool> CreateAchivementAsync(AchivementViewModel Achivement);
+        public Task<bool> UpdateAchivementAsync(AchivementViewModel Achivement);
         public Task<bool> DeleteAchivementAsync(int id);
     }
 }

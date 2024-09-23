@@ -5,7 +5,7 @@ namespace BusinessObject.Models;
 
 public partial class DetailScore
 {
-    public string Id { get; set; } = null!;
+    public int Id { get; set; }
 
     public int ScoreId { get; set; }
 

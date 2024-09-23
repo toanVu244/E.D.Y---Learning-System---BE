@@ -5,7 +5,7 @@ namespace BusinessObject.Models;
 
 public partial class Notification
 {
-    public string NotifiId { get; set; } = null!;
+    public int NotifiId { get; set; }
 
     public string? UserId { get; set; }
 

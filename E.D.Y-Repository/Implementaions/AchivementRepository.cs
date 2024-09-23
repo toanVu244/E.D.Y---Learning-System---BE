@@ -25,9 +25,9 @@ namespace E.D.Y_Repository.Implementaions
             }
         }
 
-        public async Task<Achivement> GetAchivementByUserID(int id)
+        public async Task<Achivement> GetAchivementByID(int id)
         {
-            return await _context.Achivements.SingleOrDefaultAsync(a => a.Name == "hi");
+            return await _context.Achivements.SingleOrDefaultAsync(a => a.AchiveId == id);
         }
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Interfaces
 {
-    public interface IAchivementRepository: IGenericRepository<Achivement>
+    public interface IAchivementRepository : IGenericRepository<Achivement>
     {
-        public Task<Achivement> GetAchivementByUserID(int id);
+        public Task<Achivement> GetAchivementByID(int id);
     }
 }
