@@ -1,33 +1,33 @@
-﻿using BusinessObject.Models;
-using E.D.Y_Repository.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿    using BusinessObject.Models;
+    using E.D.Y_Repository.Interfaces;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-namespace E.D.Y_Repository.Implementaions
-{
-    public class AchivementRepository : GenericRepository<Achivement>, IAchivementRepository
+    namespace E.D.Y_Repository.Implementaions
     {
-        private static AchivementRepository _instance;
-
-        public static AchivementRepository Instance
+        public class AchivementRepository : GenericRepository<Achivement>, IAchivementRepository
         {
-            get
+            private static AchivementRepository _instance;
+
+            public static AchivementRepository Instance
             {
-                if (_instance == null)
+                get
                 {
-                    _instance = new AchivementRepository();
+                    if (_instance == null)
+                    {
+                        _instance = new AchivementRepository();
+                    }
+                    return _instance;
                 }
-                return _instance;
+            }
+
+            public async Task<Achivement> GetAchivementByID(int id)
+            {
+                return await _context.Achivements.SingleOrDefaultAsync(a => a.AchiveId == id);
             }
         }
-
-        public async Task<Achivement> GetAchivementByID(int id)
-        {
-            return await _context.Achivements.SingleOrDefaultAsync(a => a.AchiveId == id);
-        }
     }
-}

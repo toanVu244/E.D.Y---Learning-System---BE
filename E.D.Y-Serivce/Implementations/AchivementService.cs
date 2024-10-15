@@ -40,13 +40,13 @@ namespace E.D.Y_Serivce.Implementations
             return result;
         }
 
-        public async Task<bool> UpdateAchivementAsync(AchivementViewModel Achivement)
+        public async Task<bool> UpdateAchivementAsync(AchivementViewModel AchivementModel)
         {
             try
             {
-                var achivement = await GetAchivementByIdAsync(4);
-                achivement.Name = Achivement.Name;
-                achivement.Condition = Achivement.Condition;
+                var achivement = await GetAchivementByIdAsync(1);
+                achivement.Name = AchivementModel.Name;
+                achivement.Condition = AchivementModel.Condition;
                 if (achivement == null)
                 {
                     return false;

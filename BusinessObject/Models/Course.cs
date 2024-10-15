@@ -14,7 +14,7 @@ public partial class Course
     public string CreateDate { get; set; } = null!;
 
     public string CreateBy { get; set; } = null!;
-
+        
     public int TimeLearning { get; set; }
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
