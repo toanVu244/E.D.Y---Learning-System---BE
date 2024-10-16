@@ -1,5 +1,6 @@
 using E.D.Y_Serivce.Implementations;
 using E.D.Y_Serivce.Interfaces;
+using E.D.Y_Serivce.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 
+builder.Services.AddAutoMapper(typeof(MappingSetting));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

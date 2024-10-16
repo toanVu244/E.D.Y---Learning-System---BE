@@ -1,6 +1,7 @@
 ﻿using BusinessObject.Models;
 using E.D.Y_Serivce.Implementations;
 using E.D.Y_Serivce.Interfaces;
+using E.D.Y_Serivce.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -41,7 +42,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         // POST: api/user
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] User newUser)
+        public async Task<IActionResult> CreateUser([FromBody] UserRegister newUser)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -50,7 +51,7 @@ namespace E.D.Y_Learning_System.Controllers
             if (!result)
                 return StatusCode(500, "An error occurred while creating the user.");
 
-            return CreatedAtAction(nameof(GetUserById), new { id = newUser.UserId }, newUser);
+            return CreatedAtAction(nameof(GetUserById), new { id = newUser.FullName }, newUser);
         }
 
         // PUT: api/user/{id}

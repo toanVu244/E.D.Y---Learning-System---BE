@@ -12,7 +12,7 @@ namespace E.D.Y_Serivce.Interfaces
     {
         public Task<List<User>> GetAllUserAsync();
         public Task<User> GetUserByIdAsync(int id);
-        public Task<bool> CreateUserAsync(User User);
+        public Task<bool> CreateUserAsync(UserRegister User);
         public Task<bool> UpdateUserAsync(User User);
         public Task<bool> DeleteUserAsync(int id);
     }

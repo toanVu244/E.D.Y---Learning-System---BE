@@ -1,7 +1,9 @@
-﻿using BusinessObject.Models;
+﻿using AutoMapper;
+using BusinessObject.Models;
 using E.D.Y_Repository.Implementaions;
 using E.D.Y_Repository.Interfaces;
 using E.D.Y_Serivce.Interfaces;
+using E.D.Y_Serivce.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,10 +12,17 @@ namespace E.D.Y_Serivce.Implementations
 {
     public class UserService : IUserService
     {
-
-        public async Task<bool> CreateUserAsync(User user)
+        private readonly IMapper mapper;
+        public UserService(IMapper mapper)
         {
-            return await UserRepository.Instance.InsertAsync(user);
+            this.mapper = mapper;
+        }
+
+        public async Task<bool> CreateUserAsync(UserRegister user)
+        {
+            User mapUser = mapper.Map<User>(user);
+            mapUser.CreateAt = DateTime.Now;
+            return await UserRepository.Instance.InsertAsync(mapUser);
         }
 
         public async Task<bool> DeleteUserAsync(int id)
@@ -23,6 +32,7 @@ namespace E.D.Y_Serivce.Implementations
 
         public async Task<List<User>> GetAllUserAsync()
         {
+
             return await UserRepository.Instance.GetAllAsync();
         }
 
