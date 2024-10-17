@@ -14,7 +14,6 @@ builder.Services.AddScoped<IAchivementService, AchivementService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
-
 builder.Services.AddAutoMapper(typeof(MappingSetting));
 
 

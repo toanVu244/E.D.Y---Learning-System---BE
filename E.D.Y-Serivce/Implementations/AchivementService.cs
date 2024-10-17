@@ -44,7 +44,7 @@ namespace E.D.Y_Serivce.Implementations
         {
             try
             {
-                var achivement = await GetAchivementByIdAsync(1);
+                var achivement = await GetAchivementByIdAsync(AchivementModel.AchiveID);
                 achivement.Name = AchivementModel.Name;
                 achivement.Condition = AchivementModel.Condition;
                 if (achivement == null)
