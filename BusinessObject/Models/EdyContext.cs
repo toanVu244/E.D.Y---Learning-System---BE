@@ -305,6 +305,7 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.EnrollDate).HasColumnType("date");
+            entity.Property(e => e.PayMoney).HasColumnName("payMoney");
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
                 .IsFixedLength()
