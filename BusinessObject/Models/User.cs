@@ -21,6 +21,8 @@ public partial class User
 
     public DateTime? Vip { get; set; }
 
+    public double? Monney { get; set; }
+
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();

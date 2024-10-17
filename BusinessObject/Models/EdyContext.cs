@@ -86,7 +86,8 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.CreateDate).HasColumnType("date");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Picture)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
+                .IsFixedLength()
                 .HasColumnName("picture");
 
             entity.HasOne(d => d.Cate).WithMany(p => p.Courses)
