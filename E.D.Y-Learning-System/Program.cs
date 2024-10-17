@@ -16,6 +16,17 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 
 builder.Services.AddAutoMapper(typeof(MappingSetting));
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder
+            .AllowAnyOrigin() // or specify allowed origins, e.g., .WithOrigins("https://example.com")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 

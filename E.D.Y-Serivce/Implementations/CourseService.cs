@@ -15,7 +15,6 @@ namespace E.D.Y_Serivce.Implementations
             Course newCourse = new Course
             {
                 Name = Course.Name,
-                Category = Course.Category,
                 CreateDate = Course.CreateDate, 
                 CreateBy = Course.CreateBy,
                 TimeLearning = Course.TimeLearning
@@ -52,7 +51,6 @@ namespace E.D.Y_Serivce.Implementations
                     return false;
                 }
                 course.Name = CourseModel.Name;
-                course.Category = CourseModel.Category;
                 course.CreateDate = CourseModel.CreateDate;  // Convert string to DateTime
                 course.CreateBy = CourseModel.CreateBy;
                 course.TimeLearning = CourseModel.TimeLearning;

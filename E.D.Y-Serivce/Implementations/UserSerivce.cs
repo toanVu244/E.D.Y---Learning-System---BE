@@ -22,6 +22,14 @@ namespace E.D.Y_Serivce.Implementations
         {
             User mapUser = mapper.Map<User>(user);
             mapUser.CreateAt = DateTime.Now;
+            User getId =await UserRepository.Instance.getLastUser();
+            string numericPart = getId.UserId.Substring(1);
+            int currentNumber = int.Parse(numericPart);
+
+            // Tạo ID mới
+            int nextNumber = currentNumber + 1;
+            string nextId = "U" + nextNumber.ToString("D3");
+            mapUser.UserId = nextId;
             return await UserRepository.Instance.InsertAsync(mapUser);
         }
 

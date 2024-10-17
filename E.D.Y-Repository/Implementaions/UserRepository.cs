@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Implementaions
 {
-    public class UserRepository : GenericRepository<User>
+    public class UserRepository : GenericRepository<User> , IUserRepository
     {
         private static UserRepository instance;
         public static UserRepository Instance
@@ -22,6 +22,16 @@ namespace E.D.Y_Repository.Implementaions
                 }
                 return instance;
             }
+        }
+
+        public async Task<User> getLastUser()
+        {
+            return await _context.Users.OrderByDescending(u => u.UserId).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> getUserbyEmailAndPass(string email, string pass)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == pass);
         }
     }
 }

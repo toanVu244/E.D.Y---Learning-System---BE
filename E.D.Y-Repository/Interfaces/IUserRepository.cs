@@ -10,5 +10,7 @@ namespace E.D.Y_Repository.Interfaces
  public interface IUserRepository : IGenericRepository<User>
     {
         public Task<User> getUserbyEmailAndPass(string email, string pass);
+
+        public Task<User> getLastUser();
     }
 }

@@ -14,7 +14,7 @@ namespace E.D.Y_Serivce.ViewModels
 
         public string Category { get; set; } = null!;
 
-        public string CreateDate { get; set; } = null!;
+        public DateTime CreateDate { get; set; }
 
         public string CreateBy { get; set; } = null!;
 

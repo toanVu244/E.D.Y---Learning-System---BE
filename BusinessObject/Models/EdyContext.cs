@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace BusinessObject.Models;
 
@@ -17,6 +16,8 @@ public partial class EdyContext : DbContext
     }
 
     public virtual DbSet<Achivement> Achivements { get; set; }
+
+    public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Course> Courses { get; set; }
 
@@ -43,19 +44,8 @@ public partial class EdyContext : DbContext
     public virtual DbSet<UserCourse> UserCourses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer(getConnectionString());
-        }
-    }
-
-    public string getConnectionString()
-    {
-        var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-        var configuration = builder.Build();
-        return configuration.GetConnectionString("DB");
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-Q1ULJ6IS\\SQLEXPRESS;Database=EDY;Uid=sa;Pwd=12345;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,8 +56,22 @@ public partial class EdyContext : DbContext
             entity.ToTable("Achivement");
 
             entity.Property(e => e.AchiveId).HasColumnName("AchiveID");
-            entity.Property(e => e.Condition).HasColumnType("nvarchar(max)");
             entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.HasKey(e => e.Idcategory);
+
+            entity.ToTable("Category");
+
+            entity.Property(e => e.Idcategory)
+                .ValueGeneratedNever()
+                .HasColumnName("IDcategory");
+            entity.Property(e => e.Name)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<Course>(entity =>
@@ -75,18 +79,19 @@ public partial class EdyContext : DbContext
             entity.ToTable("Course");
 
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
-            entity.Property(e => e.Category)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.CateId).HasColumnName("cateID");
             entity.Property(e => e.CreateBy)
                 .HasMaxLength(10)
                 .IsFixedLength();
-            entity.Property(e => e.CreateDate)
-                .HasMaxLength(10)
-                .IsFixedLength();
-            entity.Property(e => e.Name)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.CreateDate).HasColumnType("date");
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Picture)
+                .HasMaxLength(50)
+                .HasColumnName("picture");
+
+            entity.HasOne(d => d.Cate).WithMany(p => p.Courses)
+                .HasForeignKey(d => d.CateId)
+                .HasConstraintName("FK_Course_Category");
         });
 
         modelBuilder.Entity<DetailScore>(entity =>
@@ -172,9 +177,7 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.Money).HasColumnName("money");
-            entity.Property(e => e.Title)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.Title).HasMaxLength(50);
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
                 .IsFixedLength()
