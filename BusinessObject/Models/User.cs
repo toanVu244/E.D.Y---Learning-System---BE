@@ -23,6 +23,8 @@ public partial class User
 
     public double? Monney { get; set; }
 
+    public string? Role { get; set; }
+
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();

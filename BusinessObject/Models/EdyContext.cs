@@ -269,6 +269,9 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(10)
                 .IsFixedLength();
+            entity.Property(e => e.Role)
+                .HasMaxLength(10)
+                .IsFixedLength();
             entity.Property(e => e.Vip)
                 .HasColumnType("date")
                 .HasColumnName("VIP");
