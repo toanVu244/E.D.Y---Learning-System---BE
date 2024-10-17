@@ -59,7 +59,7 @@ namespace E.D.Y_Learning_System.Controllers
             var totalAmount = data?["amount"]?.ToString();
             if (totalAmount == null)
             {
-                return new JsonResult(new{id = ""});
+                return new JsonResult(new { orderID = "" });
             }
 
             JsonObject createOrderObj = new JsonObject();
@@ -67,7 +67,7 @@ namespace E.D.Y_Learning_System.Controllers
 
             JsonObject amount = new JsonObject();
             amount.Add("currency_code", "USD");
-            amount.Add("Value", totalAmount);
+            amount.Add("value", totalAmount);  // Corrected key "value"
 
             JsonObject purchaseUnit = new JsonObject();
             purchaseUnit.Add("amount", amount);
@@ -75,32 +75,78 @@ namespace E.D.Y_Learning_System.Controllers
             JsonArray purchaseUnits = new JsonArray();
             purchaseUnits.Add(purchaseUnit);
 
-            createOrderObj.Add("purchaseUnits", purchaseUnits);
+            createOrderObj.Add("purchase_units", purchaseUnits);  // Corrected key "purchase_units"
 
             string accessToken = await GetAccessTokenAsync();
 
-            string url = PaypalUrl + "/v1/oauth2/orders";
+            string url = PaypalUrl + "/v2/checkout/orders";
 
-            using(var client = new HttpClient()) {
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer" + accessToken);
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);  // Ensure space after "Bearer"
+
                 var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
-                requestMessage.Content = new StringContent(createOrderObj.ToString(),null,"application/json");
+                requestMessage.Content = new StringContent(createOrderObj.ToString(), null, "application/json");
 
-                var httpRespone = await client.SendAsync(requestMessage);
+                var httpResponse = await client.SendAsync(requestMessage);
 
-                if (httpRespone.IsSuccessStatusCode)
+                if (httpResponse.IsSuccessStatusCode)
                 {
-                    var strRespone = await httpRespone.Content.ReadAsStringAsync();
+                    var strRespone = await httpResponse.Content.ReadAsStringAsync();
                     var jsonRespone = JsonNode.Parse(strRespone);
-                    if(jsonRespone != null)
+                    if (jsonRespone != null)
                     {
                         string paypalOrderId = jsonRespone["id"]?.ToString();
-                        return new JsonResult(new { id = "" });
+                        return new JsonResult(new { orderID = paypalOrderId });
                     }
+                }
+                else
+                {
+                    var errorResponse = await httpResponse.Content.ReadAsStringAsync();
+                    return BadRequest(new { error = errorResponse });
                 }
             }
 
-            return new JsonResult(new { id = "" });
+            return new JsonResult(new { orderID = "" });
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> CompleteOrder([FromBody]JsonObject data)
+        {
+            var orderId = data?["orderID"]?.ToString();
+            if(orderId == null)
+            {
+                return new JsonResult("error");
+            }
+            string accessToken = await GetAccessTokenAsync();
+
+            string url = PaypalUrl + "/v2/checkout/orders/" + orderId + "/capture";
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+                requestMessage.Content = new StringContent("", null, "application/json");
+
+                var httpResponse = await client.SendAsync(requestMessage);
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var strRespone = await httpResponse.Content.ReadAsStringAsync();
+                    var jsonRespone = JsonNode.Parse(strRespone);
+                    if (jsonRespone != null)
+                    {
+                        string paypalOrderStatus = jsonRespone["status"]?.ToString() ?? "";
+                        if (paypalOrderStatus == "COMPLETE")
+                        {
+                            return new JsonResult("Sucesss");
+                        }
+                    }
+                }
+                var errorContent = await httpResponse.Content.ReadAsStringAsync();
+                return new JsonResult($"Error: {httpResponse.ReasonPhrase}, Content: {errorContent}");
+            }
         }
     }
 }
