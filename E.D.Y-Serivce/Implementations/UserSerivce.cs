@@ -6,6 +6,8 @@ using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace E.D.Y_Serivce.Implementations
@@ -44,6 +46,11 @@ namespace E.D.Y_Serivce.Implementations
             return await UserRepository.Instance.GetAllAsync();
         }
 
+        public async Task<User> GetUserByEmailAndPassAsync(string email, string pass)
+        {
+            return await UserRepository.Instance.getUserbyEmailAndPass(email, pass);
+        }
+
         public async Task<User> GetUserByIdAsync(int id)
         {
             return await UserRepository.Instance.GetById(id);
@@ -52,6 +59,20 @@ namespace E.D.Y_Serivce.Implementations
         public async Task<bool> UpdateUserAsync(User user)
         {
             return await UserRepository.Instance.UpdateAsync(user);
+        }
+
+        public string HashAndTruncatePassword(string password)
+        {
+            using (var md5 = MD5.Create())
+            {
+                var result = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
+                password = BitConverter.ToString(result).Replace("-", "").ToLowerInvariant();
+            }
+
+            // Truncate hash to 16 characters
+            password = password.Substring(0, 16);
+
+            return password;
         }
     }
 }
