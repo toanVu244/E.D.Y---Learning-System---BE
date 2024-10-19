@@ -24,4 +24,16 @@ public partial class User
     public double? Monney { get; set; }
 
     public string? Role { get; set; }
+
+    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+
+    public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
+
+    public virtual ICollection<UserAchivement> UserAchivements { get; set; } = new List<UserAchivement>();
+
+    public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
 }

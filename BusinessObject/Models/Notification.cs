@@ -12,4 +12,6 @@ public partial class Notification
     public string? ContentNotifi { get; set; }
 
     public DateTime? Date { get; set; }
+
+    public virtual User? User { get; set; }
 }

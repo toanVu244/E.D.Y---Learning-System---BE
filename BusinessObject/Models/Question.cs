@@ -20,4 +20,8 @@ public partial class Question
     public string? Answare2 { get; set; }
 
     public string? Answare3 { get; set; }
+
+    public virtual ICollection<DetailScore> DetailScores { get; set; } = new List<DetailScore>();
+
+    public virtual Test Test { get; set; } = null!;
 }

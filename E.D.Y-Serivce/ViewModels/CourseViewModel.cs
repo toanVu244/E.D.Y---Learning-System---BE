@@ -19,5 +19,9 @@ namespace E.D.Y_Serivce.ViewModels
         public string CreateBy { get; set; } = null!;
 
         public int TimeLearning { get; set; }
+     
+        public int? CateId { get; set; }
+
+        public string? Picture { get; set; }
     }
 }

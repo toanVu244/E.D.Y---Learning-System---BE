@@ -52,11 +52,6 @@ namespace E.D.Y_Serivce.Implementations
             return await UserRepository.Instance.getUserbyEmailAndPass(email, pass);
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
-        {
-            return await UserRepository.Instance.GetById(id);
-        }
-
         public async Task<bool> UpdateUserAsync(User user)
         {
             return await UserRepository.Instance.UpdateAsync(user);
@@ -79,6 +74,11 @@ namespace E.D.Y_Serivce.Implementations
         public async Task<User> GetUserByEmail(string email)
         {
             return await UserRepository.Instance.getUserbyEmail(email);
+        }
+
+        public async Task<User> GetUserByIdAsync(string id)
+        {
+            return await UserRepository.Instance.GetById(id);
         }
     }
 }

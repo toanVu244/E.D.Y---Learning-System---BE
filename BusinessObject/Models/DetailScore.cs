@@ -14,4 +14,8 @@ public partial class DetailScore
     public bool Result { get; set; }
 
     public string UserAnsware { get; set; } = null!;
+
+    public virtual Question Question { get; set; } = null!;
+
+    public virtual Score Score { get; set; } = null!;
 }

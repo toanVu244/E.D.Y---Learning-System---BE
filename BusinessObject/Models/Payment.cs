@@ -14,4 +14,6 @@ public partial class Payment
     public DateTime Date { get; set; }
 
     public string? Title { get; set; }
+
+    public virtual User User { get; set; } = null!;
 }
