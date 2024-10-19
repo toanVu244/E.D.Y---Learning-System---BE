@@ -19,6 +19,7 @@ namespace E.D.Y_Serivce.Interfaces
 
         public Task<User> GetUserByEmailAndPassAsync(string email, string pass);
 
+        public Task<User> GetUserByEmail(string email);
         public string HashAndTruncatePassword(string password);
     }
 }

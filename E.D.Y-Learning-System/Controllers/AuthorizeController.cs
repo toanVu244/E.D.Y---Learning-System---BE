@@ -176,7 +176,7 @@ namespace E.D.Y_Learning_System.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var user = await _userServices.GetUserByEmailAndPassAsync(email,password);
+            var user = await _userServices.GetUserByEmail(email);
             if (user != null)
             {
                 // Hash the input password with MD5
@@ -186,7 +186,12 @@ namespace E.D.Y_Learning_System.Controllers
                 if (hashedInputPasswordString == user.Password)
                 {
                     var token = GenerateToken(user, null);
-                    return Ok(token);
+                    return Ok(new APIResponse
+                    {
+                        Success = true,
+                        Message = "Status Code:200 Login Successfully",
+                        data = token
+                    });
                 }
             }
             return BadRequest(new APIResponse

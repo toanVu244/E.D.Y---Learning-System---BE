@@ -74,5 +74,10 @@ namespace E.D.Y_Serivce.Implementations
 
             return password;
         }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await UserRepository.Instance.getUserbyEmail(email);
+        }
     }
 }
