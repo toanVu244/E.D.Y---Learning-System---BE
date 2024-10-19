@@ -30,10 +30,11 @@ namespace E.D.Y_Serivce.Implementations
             int nextNumber = currentNumber + 1;
             string nextId = "U" + nextNumber.ToString("D3");
             mapUser.UserId = nextId;
+            mapUser.Role = "Student";
             return await UserRepository.Instance.InsertAsync(mapUser);
         }
 
-        public async Task<bool> DeleteUserAsync(int id)
+        public async Task<bool> DeleteUserAsync(string id)
         {
             return await UserRepository.Instance.DeleteAsync(id);
         }
@@ -44,7 +45,7 @@ namespace E.D.Y_Serivce.Implementations
             return await UserRepository.Instance.GetAllAsync();
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(string id)
         {
             return await UserRepository.Instance.GetById(id);
         }

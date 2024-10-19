@@ -31,7 +31,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         // GET: api/user/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(string id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
@@ -56,7 +56,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         // PUT: api/user/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] User updatedUser)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -76,7 +76,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         // DELETE: api/user/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
