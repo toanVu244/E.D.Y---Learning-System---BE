@@ -56,7 +56,12 @@ public partial class EdyContext : DbContext
             entity.ToTable("Achivement");
 
             entity.Property(e => e.AchiveId).HasColumnName("AchiveID");
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Condition)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -69,7 +74,7 @@ public partial class EdyContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("IDcategory");
             entity.Property(e => e.Name)
-                .HasMaxLength(10)
+                .HasMaxLength(20)
                 .IsFixedLength()
                 .HasColumnName("name");
         });
@@ -84,15 +89,13 @@ public partial class EdyContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength();
             entity.Property(e => e.CreateDate).HasColumnType("date");
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsFixedLength();
             entity.Property(e => e.Picture)
                 .HasMaxLength(500)
                 .IsFixedLength()
                 .HasColumnName("picture");
-
-            entity.HasOne(d => d.Cate).WithMany(p => p.Courses)
-                .HasForeignKey(d => d.CateId)
-                .HasConstraintName("FK_Course_Category");
         });
 
         modelBuilder.Entity<DetailScore>(entity =>
@@ -101,17 +104,9 @@ public partial class EdyContext : DbContext
 
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
             entity.Property(e => e.ScoreId).HasColumnName("ScoreID");
-            entity.Property(e => e.UserAnsware).HasMaxLength(50);
-
-            entity.HasOne(d => d.Question).WithMany(p => p.DetailScores)
-                .HasForeignKey(d => d.QuestionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_DetailScore_Question");
-
-            entity.HasOne(d => d.Score).WithMany(p => p.DetailScores)
-                .HasForeignKey(d => d.ScoreId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_DetailScore_Score");
+            entity.Property(e => e.UserAnsware)
+                .HasMaxLength(50)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<Feedback>(entity =>
@@ -119,22 +114,14 @@ public partial class EdyContext : DbContext
             entity.ToTable("Feedback");
 
             entity.Property(e => e.FeedbackId).HasColumnName("FeedbackID");
-            entity.Property(e => e.Content).HasMaxLength(50);
+            entity.Property(e => e.Content)
+                .HasMaxLength(50)
+                .IsFixedLength();
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("UserID");
-
-            entity.HasOne(d => d.Course).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.CourseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Feedback_Course");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Feedback_User");
         });
 
         modelBuilder.Entity<Lesson>(entity =>
@@ -143,13 +130,12 @@ public partial class EdyContext : DbContext
 
             entity.Property(e => e.LessonId).HasColumnName("LessonID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
-            entity.Property(e => e.Detail).HasMaxLength(50);
-            entity.Property(e => e.Picture).HasMaxLength(250);
-
-            entity.HasOne(d => d.Course).WithMany(p => p.Lessons)
-                .HasForeignKey(d => d.CourseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Lesson_Course");
+            entity.Property(e => e.Detail)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Picture)
+                .HasMaxLength(250)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<Notification>(entity =>
@@ -159,16 +145,14 @@ public partial class EdyContext : DbContext
             entity.ToTable("Notification");
 
             entity.Property(e => e.NotifiId).HasColumnName("NotifiID");
-            entity.Property(e => e.ContentNotifi).HasMaxLength(50);
+            entity.Property(e => e.ContentNotifi)
+                .HasMaxLength(50)
+                .IsFixedLength();
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("UserID");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Notifications)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_Notification_User");
         });
 
         modelBuilder.Entity<Payment>(entity =>
@@ -178,16 +162,13 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.Money).HasColumnName("money");
-            entity.Property(e => e.Title).HasMaxLength(50);
+            entity.Property(e => e.Title)
+                .HasMaxLength(50)
+                .IsFixedLength();
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("UserID");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Payment_User");
         });
 
         modelBuilder.Entity<Question>(entity =>
@@ -195,20 +176,24 @@ public partial class EdyContext : DbContext
             entity.ToTable("Question");
 
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
-            entity.Property(e => e.Answare1).HasMaxLength(50);
-            entity.Property(e => e.Answare2).HasMaxLength(50);
-            entity.Property(e => e.Answare3).HasMaxLength(50);
-            entity.Property(e => e.AnswareTrue).HasMaxLength(50);
+            entity.Property(e => e.Answare1)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Answare2)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Answare3)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.AnswareTrue)
+                .HasMaxLength(50)
+                .IsFixedLength();
             entity.Property(e => e.CreateDate).HasColumnType("date");
             entity.Property(e => e.Question1)
                 .HasMaxLength(50)
+                .IsFixedLength()
                 .HasColumnName("Question");
             entity.Property(e => e.TestId).HasColumnName("TestID");
-
-            entity.HasOne(d => d.Test).WithMany(p => p.Questions)
-                .HasForeignKey(d => d.TestId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Question_Test");
         });
 
         modelBuilder.Entity<Score>(entity =>
@@ -225,16 +210,6 @@ public partial class EdyContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("UserID");
-
-            entity.HasOne(d => d.Test).WithMany(p => p.Scores)
-                .HasForeignKey(d => d.TestId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Score_Test");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Scores)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Score_User");
         });
 
         modelBuilder.Entity<Test>(entity =>
@@ -245,13 +220,13 @@ public partial class EdyContext : DbContext
 
             entity.Property(e => e.TesId).HasColumnName("TesID");
             entity.Property(e => e.CreateAt).HasColumnType("date");
-            entity.Property(e => e.Description).HasMaxLength(50);
+            entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .IsFixedLength();
             entity.Property(e => e.LessonId).HasColumnName("LessonID");
-            entity.Property(e => e.TestName).HasMaxLength(50);
-
-            entity.HasOne(d => d.Lesson).WithMany(p => p.Tests)
-                .HasForeignKey(d => d.LessonId)
-                .HasConstraintName("FK_Test_Lesson");
+            entity.Property(e => e.TestName)
+                .HasMaxLength(50)
+                .IsFixedLength();
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -263,9 +238,15 @@ public partial class EdyContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("UserID");
             entity.Property(e => e.CreateAt).HasColumnType("date");
-            entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.FullName).HasMaxLength(50);
-            entity.Property(e => e.Password).HasMaxLength(255);
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.FullName)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Password)
+                .HasMaxLength(255)
+                .IsFixedLength();
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(10)
                 .IsFixedLength();
@@ -288,14 +269,6 @@ public partial class EdyContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("UserID");
-
-            entity.HasOne(d => d.Achive).WithMany(p => p.UserAchivements)
-                .HasForeignKey(d => d.AchiveId)
-                .HasConstraintName("FK_User_Achivement_Achivement");
-
-            entity.HasOne(d => d.User).WithMany(p => p.UserAchivements)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_User_Achivement_User");
         });
 
         modelBuilder.Entity<UserCourse>(entity =>
@@ -310,16 +283,6 @@ public partial class EdyContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("UserID");
-
-            entity.HasOne(d => d.Course).WithMany(p => p.UserCourses)
-                .HasForeignKey(d => d.CourseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_User_Course_Course");
-
-            entity.HasOne(d => d.User).WithMany(p => p.UserCourses)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_User_Course_User");
         });
 
         OnModelCreatingPartial(modelBuilder);

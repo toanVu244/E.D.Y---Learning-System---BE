@@ -12,8 +12,4 @@ public partial class UserAchivement
     public int? AchiveId { get; set; }
 
     public DateTime? Date { get; set; }
-
-    public virtual Achivement? Achive { get; set; }
-
-    public virtual User? User { get; set; }
 }

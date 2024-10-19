@@ -16,10 +16,4 @@ public partial class Test
     public DateTime CreateAt { get; set; }
 
     public int? LessonId { get; set; }
-
-    public virtual Lesson? Lesson { get; set; }
-
-    public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
-
-    public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
 }

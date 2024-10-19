@@ -10,6 +10,4 @@ public partial class Achivement
     public string? Name { get; set; }
 
     public string? Condition { get; set; }
-
-    public virtual ICollection<UserAchivement> UserAchivements { get; set; } = new List<UserAchivement>();
 }

@@ -14,10 +14,4 @@ public partial class Score
     public decimal Score1 { get; set; }
 
     public DateTime CompleteTime { get; set; }
-
-    public virtual ICollection<DetailScore> DetailScores { get; set; } = new List<DetailScore>();
-
-    public virtual Test Test { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
 }
