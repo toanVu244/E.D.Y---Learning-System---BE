@@ -140,7 +140,7 @@ namespace E.D.Y_Learning_System.Controllers
                         string paypalOrderStatus = jsonRespone["status"]?.ToString() ?? "";
                         if (paypalOrderStatus == "COMPLETED")
                         {
-                            return new JsonResult("Success");
+                            return new JsonResult("Successs");
                         }
                     }
                 }

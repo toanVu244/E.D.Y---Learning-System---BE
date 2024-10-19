@@ -33,5 +33,10 @@ namespace E.D.Y_Repository.Implementaions
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == pass);
         }
+
+        public async Task<User> getUserbyEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
     }
 }

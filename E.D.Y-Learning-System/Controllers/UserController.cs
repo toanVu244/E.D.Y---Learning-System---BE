@@ -2,6 +2,7 @@
 using E.D.Y_Serivce.Implementations;
 using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -22,12 +23,20 @@ namespace E.D.Y_Learning_System.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUser()
         {
-            var users = await _userService.GetAllUserAsync();
-            if (users == null)
-                return NotFound();
+            try
+            {
+                var users = await _userService.GetAllUserAsync();
+                if (users == null || !users.Any())
+                    return NotFound(new { message = "No users found." });
 
-            return Ok(users);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", error = ex.Message });
+            }
         }
+
 
         // GET: api/user/{id}
         [HttpGet("{id}")]

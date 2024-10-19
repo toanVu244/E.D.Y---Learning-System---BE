@@ -1,5 +1,6 @@
 ﻿using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E.D.Y_Learning_System.Controllers
@@ -17,6 +18,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         // GET: api/Lesson
         [HttpGet]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> GetLessons()
         {
             var lessons = await _lessonService.GetAllLessonsAsync();

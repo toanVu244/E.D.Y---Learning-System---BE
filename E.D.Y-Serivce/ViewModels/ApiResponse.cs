@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Serivce.ViewModels
 {
-    public class AchivementViewModel
+    public class APIResponse
     {
-        public int AchiveID { get; set; }
-        public string? Name { get; set; }
+        public bool Success { get; set; }
 
-        public string? Condition { get; set; }
+        public string Message { get; set; }
+
+        public Object data { get; set; }
     }
 }

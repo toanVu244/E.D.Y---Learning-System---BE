@@ -11,6 +11,8 @@ namespace E.D.Y_Repository.Interfaces
     {
         public Task<User> getUserbyEmailAndPass(string email, string pass);
 
+        public Task<User> getUserbyEmail(string email);
+
         public Task<User> getLastUser();
     }
 }
