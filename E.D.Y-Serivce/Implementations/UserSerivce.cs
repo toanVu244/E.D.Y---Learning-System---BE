@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessObject.Models;
+using BusinessObject.Entities;
 using E.D.Y_Repository.Implementaions;
 using E.D.Y_Repository.Interfaces;
 using E.D.Y_Serivce.Interfaces;

@@ -37,7 +37,7 @@ namespace E.D.Y_Learning_System.Controllers
         }
 
         [HttpPost("add-UserCourse")]
-        public async Task<IActionResult> AddUserCourse(UserCourseViewModel UserCourse)
+        public async Task<IActionResult> AddUserToCourse(UserCourseViewModel UserCourse)
         {
             try
             {

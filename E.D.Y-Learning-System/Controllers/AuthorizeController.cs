@@ -1,4 +1,4 @@
-﻿using BusinessObject.Models;
+﻿using BusinessObject.Entities;
 using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -64,112 +64,6 @@ namespace E.D.Y_Learning_System.Controllers
             };
         }
         #endregion
-/*
-        #region GenerateRefreshToken
-        // Hàm tạo refresh token
-        [NonAction]
-        public string GenerateRefreshToken(User user)
-        {
-            var randomnumber = new byte[32];
-            using (var randomnumbergenerator = RandomNumberGenerator.Create())
-            {
-                randomnumbergenerator.GetBytes(randomnumber);
-                string refreshtoken = Convert.ToBase64String(randomnumber);
-                var refreshTokenEntity = new RefreshToken
-                {
-                    UserId = user.UserId,
-                    TokenId = new Random().Next().ToString(),
-                    RefreshTokenString = refreshtoken.ToString(),
-                    ExpireAt = DateTime.Now.AddDays(7),
-                    Statuses = ReStatuses.Enable
-                };
-
-                _refreshHandler.GenerateRefreshToken(refreshTokenEntity);
-                return refreshtoken;
-            }
-        }
-        #endregion*/
-
-    /*    #region RefreshAccessToken
-        [HttpPost("RefreshAccessToken")]
-        public async Task<ActionResult> RefreshAccessToken(TokenViewModel token)
-        {
-            try
-            {
-                var jwtTokenHander = new JwtSecurityTokenHandler();
-                var TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("c2VydmVwZXJmZWN0bHljaGVlc2VxdWlja2NvYWNoY29sbGVjdHNsb3Bld2lzZWNhbWU=")),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero,
-                    ValidateLifetime = false
-                };
-                //ResetRefreshToken in DB if token is disable or expired will Remove RT
-                _refreshHandler.ResetRefreshToken();
-                //check validate of Parameter
-                var tokenVerification = jwtTokenHander.ValidateToken(token.AccessTokenToken, TokenValidationParameters, out var validatedToken);
-                if (tokenVerification == null)
-                {
-                    return Ok(new APIResponse
-                    {
-                        Success = false,
-                        Message = "Invalid Param"
-                    });
-                }
-                //check AccessToken expire?
-                var epochTime = long.Parse(tokenVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
-                DateTimeOffset dateTimeUtc = DateTimeOffset.FromUnixTimeSeconds(epochTime);
-                DateTime dateTimeUtcConverted = dateTimeUtc.UtcDateTime;
-                if (dateTimeUtcConverted > DateTime.UtcNow)
-                {
-                    return Ok(new APIResponse
-                    {
-                        Success = false,
-                        Message = "AccessToken had not expired",
-                        data = "Expire time: " + dateTimeUtcConverted.ToString()
-                    });
-                }
-                //check RefreshToken exist in DB
-                var storedToken = _refreshHandler.GetRefreshToken(token.RefreshToken);
-                if (storedToken == null)
-                {
-                    return Ok(new APIResponse
-                    {
-                        Success = false,
-                        Message = "RefreshToken had not existed"
-                    });
-                }
-                //check RefreshToken is revoked?
-                if (storedToken.Statuses == ReStatuses.Disable)
-                {
-                    return Ok(new APIResponse
-                    {
-                        Success = false,
-                        Message = "RefreshToken had been revoked"
-                    });
-                }
-                var User = _userServices.GetUserById(storedToken.UserId);
-                var newAT = GenerateToken(User, token.RefreshToken);
-
-                return Ok(new APIResponse
-                {
-                    Success = true,
-                    Message = "Refresh AT success fully",
-                    data = newAT
-                });
-            }
-            catch (Exception ex)
-            {
-                return Ok(new APIResponse
-                {
-                    Success = false,
-                    Message = "Something go wrong"
-                });
-            }
-        }
-        #endregion*/
 
         #region Login
         [HttpPost]
@@ -225,9 +119,6 @@ namespace E.D.Y_Learning_System.Controllers
                 SecurityToken validatedToken;
                 var claimsPrincipal = tokenHandler.ValidateToken(token, TokenValidationParameters, out validatedToken);
                 var userIdClaim = claimsPrincipal.FindFirst("UserId");
-/*                var _refreshToken = _refreshHandler.GetRefreshTokenByUserID(userIdClaim.Value);
-                _refreshHandler.UpdateRefreshToken(_refreshToken);
-                _refreshHandler.ResetRefreshToken();*/
                 if (HttpContext.Request.Headers.ContainsKey("Authorization"))
                 {
                     HttpContext.Request.Headers.Remove("Authorization");

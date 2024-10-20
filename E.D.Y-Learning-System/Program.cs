@@ -53,7 +53,7 @@ builder.Services.AddAuthorization(options =>
         {
             var user = context.User;
             var roleClaim = user.FindFirst("Role");
-            if (roleClaim != null && roleClaim.Value == "1")
+            if (roleClaim != null && roleClaim.Value == "Admin")
             {
                 return true;
             }
@@ -66,20 +66,20 @@ builder.Services.AddAuthorization(options =>
         {
             var user = context.User;
             var roleClaim = user.FindFirst("Role");
-            if (roleClaim != null && (roleClaim.Value == "2" || roleClaim.Value == "1"))
+            if (roleClaim != null && (roleClaim.Value == "Staff"))
             {
                 return true;
             }
             return false;
         });
     });
-    options.AddPolicy("Customer", policy =>
+    options.AddPolicy("Student", policy =>
     {
         policy.RequireAssertion(context =>
         {
             var user = context.User;
             var roleClaim = user.FindFirst("Role");
-            if (roleClaim != null && (roleClaim.Value == "3" || roleClaim.Value == "1"))
+            if (roleClaim != null && (roleClaim.Value == "Student"))
             {
                 return true;
             }
@@ -92,7 +92,7 @@ builder.Services.AddAuthorization(options =>
         {
             var user = context.User;
             var roleClaim = user.FindFirst("Role");
-            if (roleClaim != null && (roleClaim.Value == "4" || roleClaim.Value == "1"))
+            if (roleClaim != null && (roleClaim.Value == "Lecture"))
             {
                 return true;
             }

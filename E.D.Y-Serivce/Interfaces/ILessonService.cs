@@ -1,4 +1,4 @@
-﻿using BusinessObject.Models;
+﻿using BusinessObject.Entities;
 using E.D.Y_Serivce.ViewModels;
 using System;
 using System.Collections.Generic;

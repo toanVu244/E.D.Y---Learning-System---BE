@@ -18,7 +18,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         // GET: api/Lesson
         [HttpGet]
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "Student")]
         public async Task<IActionResult> GetLessons()
         {
             var lessons = await _lessonService.GetAllLessonsAsync();

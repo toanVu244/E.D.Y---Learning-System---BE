@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessObject.Models;
+namespace BusinessObject.Entities;
 
 public partial class EdyContext : DbContext
 {
@@ -45,7 +45,7 @@ public partial class EdyContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-Q1ULJ6IS\\SQLEXPRESS;Database=EDY;Uid=sa;Pwd=12345;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=(local);Database= EDY;Uid=sa;Pwd=admin12345;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,12 +56,8 @@ public partial class EdyContext : DbContext
             entity.ToTable("Achivement");
 
             entity.Property(e => e.AchiveId).HasColumnName("AchiveID");
-            entity.Property(e => e.Condition)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.Condition).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -70,12 +66,9 @@ public partial class EdyContext : DbContext
 
             entity.ToTable("Category");
 
-            entity.Property(e => e.Idcategory)
-                .ValueGeneratedNever()
-                .HasColumnName("IDcategory");
+            entity.Property(e => e.Idcategory).HasColumnName("IDcategory");
             entity.Property(e => e.Name)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(50)
                 .HasColumnName("name");
         });
 
@@ -85,16 +78,11 @@ public partial class EdyContext : DbContext
 
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.CateId).HasColumnName("cateID");
-            entity.Property(e => e.CreateBy)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.CreateBy).HasMaxLength(10);
             entity.Property(e => e.CreateDate).HasColumnType("date");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Picture)
                 .HasMaxLength(500)
-                .IsFixedLength()
                 .HasColumnName("picture");
 
             entity.HasOne(d => d.Cate).WithMany(p => p.Courses)
@@ -108,9 +96,7 @@ public partial class EdyContext : DbContext
 
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
             entity.Property(e => e.ScoreId).HasColumnName("ScoreID");
-            entity.Property(e => e.UserAnsware)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.UserAnsware).HasMaxLength(250);
 
             entity.HasOne(d => d.Question).WithMany(p => p.DetailScores)
                 .HasForeignKey(d => d.QuestionId)
@@ -128,13 +114,10 @@ public partial class EdyContext : DbContext
             entity.ToTable("Feedback");
 
             entity.Property(e => e.FeedbackId).HasColumnName("FeedbackID");
-            entity.Property(e => e.Content)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.Content).HasMaxLength(50);
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
-                .IsFixedLength()
                 .HasColumnName("UserID");
 
             entity.HasOne(d => d.Course).WithMany(p => p.Feedbacks)
@@ -154,12 +137,8 @@ public partial class EdyContext : DbContext
 
             entity.Property(e => e.LessonId).HasColumnName("LessonID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
-            entity.Property(e => e.Detail)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Picture)
-                .HasMaxLength(250)
-                .IsFixedLength();
+            entity.Property(e => e.Detail).HasMaxLength(300);
+            entity.Property(e => e.Picture).HasMaxLength(250);
 
             entity.HasOne(d => d.Course).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.CourseId)
@@ -174,13 +153,10 @@ public partial class EdyContext : DbContext
             entity.ToTable("Notification");
 
             entity.Property(e => e.NotifiId).HasColumnName("NotifiID");
-            entity.Property(e => e.ContentNotifi)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.ContentNotifi).HasMaxLength(50);
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
-                .IsFixedLength()
                 .HasColumnName("UserID");
 
             entity.HasOne(d => d.User).WithMany(p => p.Notifications)
@@ -195,12 +171,9 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.Money).HasColumnName("money");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.Title).HasMaxLength(50);
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
-                .IsFixedLength()
                 .HasColumnName("UserID");
 
             entity.HasOne(d => d.User).WithMany(p => p.Payments)
@@ -214,22 +187,13 @@ public partial class EdyContext : DbContext
             entity.ToTable("Question");
 
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
-            entity.Property(e => e.Answare1)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Answare2)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Answare3)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.AnswareTrue)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.Answare1).HasMaxLength(250);
+            entity.Property(e => e.Answare2).HasMaxLength(250);
+            entity.Property(e => e.Answare3).HasMaxLength(250);
+            entity.Property(e => e.AnswareTrue).HasMaxLength(250);
             entity.Property(e => e.CreateDate).HasColumnType("date");
             entity.Property(e => e.Question1)
-                .HasMaxLength(50)
-                .IsFixedLength()
+                .HasMaxLength(250)
                 .HasColumnName("Question");
             entity.Property(e => e.TestId).HasColumnName("TestID");
 
@@ -251,7 +215,6 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.TestId).HasColumnName("TestID");
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
-                .IsFixedLength()
                 .HasColumnName("UserID");
 
             entity.HasOne(d => d.Test).WithMany(p => p.Scores)
@@ -273,13 +236,9 @@ public partial class EdyContext : DbContext
 
             entity.Property(e => e.TesId).HasColumnName("TesID");
             entity.Property(e => e.CreateAt).HasColumnType("date");
-            entity.Property(e => e.Description)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.LessonId).HasColumnName("LessonID");
-            entity.Property(e => e.TestName)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.TestName).HasMaxLength(100);
 
             entity.HasOne(d => d.Lesson).WithMany(p => p.Tests)
                 .HasForeignKey(d => d.LessonId)
@@ -292,24 +251,13 @@ public partial class EdyContext : DbContext
 
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
-                .IsFixedLength()
                 .HasColumnName("UserID");
             entity.Property(e => e.CreateAt).HasColumnType("date");
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.FullName)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Password)
-                .HasMaxLength(255)
-                .IsFixedLength();
-            entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(10)
-                .IsFixedLength();
-            entity.Property(e => e.Role)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.FullName).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(255);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(10);
+            entity.Property(e => e.Role).HasMaxLength(10);
             entity.Property(e => e.Vip)
                 .HasColumnType("date")
                 .HasColumnName("VIP");
@@ -324,7 +272,6 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
-                .IsFixedLength()
                 .HasColumnName("UserID");
 
             entity.HasOne(d => d.Achive).WithMany(p => p.UserAchivements)
@@ -345,7 +292,6 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.EnrollDate).HasColumnType("date");
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
-                .IsFixedLength()
                 .HasColumnName("UserID");
 
             entity.HasOne(d => d.Course).WithMany(p => p.UserCourses)
