@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Implementaions
 {
-    public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
+    public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackRepository
     {
-        private static LessonRepository _instance;
+        private static FeedbackRepository _instance;
 
-        public static LessonRepository Instance
+        private static FeedbackRepository Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new LessonRepository();
+                    _instance = new FeedbackRepository();
                 }
                 return _instance;
             }
         }
 
-        public async Task<Lesson> GetLessonByID(int id)
+        public async Task<Feedback> GetFeedbackByID(int id)
         {
-            return await _context.Lessons.SingleOrDefaultAsync(l => l.LessonId == id);
+            return await _context.Feedbacks.SingleOrDefaultAsync(x => x.FeedbackId == id);  
         }
     }
 }

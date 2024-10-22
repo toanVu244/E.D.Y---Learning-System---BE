@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Interfaces
 {
-    public interface ICourseRepository: IGenericRepository<Course>
+    public interface IFeedbackRepository: IGenericRepository<Feedback>
     {
-        public Task<Course> GetCourseByID(int id);
+        public Task<Feedback> GetFeedbackByID(int id);
     }
 }

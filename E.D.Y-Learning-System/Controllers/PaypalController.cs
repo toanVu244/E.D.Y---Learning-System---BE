@@ -21,7 +21,7 @@ namespace E.D.Y_Learning_System.Controllers
             PaypalSecret = _configuration["PayPal:Secret"];
             PaypalUrl = _configuration["PayPal:Url"];
         }
-        [HttpGet]
+        [NonAction]
         public async Task<string> GetAccessTokenAsync()
         {
 

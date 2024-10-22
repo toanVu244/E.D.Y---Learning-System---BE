@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Interfaces
 {
-    public interface ILessonRepository: IGenericRepository<Course>
+    public interface ILessonRepository: IGenericRepository<Lesson>
     {
     }
 }

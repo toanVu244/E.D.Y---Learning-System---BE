@@ -43,6 +43,9 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IUserCourseService, UserCourseService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 builder.Services.AddAutoMapper(typeof(MappingSetting));
 
 builder.Services.AddAuthorization(options =>

@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Implementaions
 {
-    public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
+    public class NotificationRepository : GenericRepository<Notification>, INotificationRepository
     {
-        private static LessonRepository _instance;
+        private static NotificationRepository _instance;
 
-        public static LessonRepository Instance
+        public static NotificationRepository Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new LessonRepository();
+                    _instance = new NotificationRepository();
                 }
                 return _instance;
             }
         }
 
-        public async Task<Lesson> GetLessonByID(int id)
+        public async Task<Notification> GetNotificationByID(int id)
         {
-            return await _context.Lessons.SingleOrDefaultAsync(l => l.LessonId == id);
+            return await _context.Notifications.SingleOrDefaultAsync(x => x.NotifiId == id);
         }
     }
 }
