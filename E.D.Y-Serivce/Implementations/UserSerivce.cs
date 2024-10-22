@@ -33,7 +33,13 @@ namespace E.D.Y_Serivce.Implementations
             string nextId = "U" + nextNumber.ToString("D3");
             mapUser.UserId = nextId;
             mapUser.Role = "Student";
-            return await UserRepository.Instance.InsertAsync(mapUser);
+
+            User validemail = await UserRepository.Instance.getUserbyEmail(user.Email);
+            if (validemail == null) {
+                return await UserRepository.Instance.InsertAsync(mapUser);
+
+            }
+            return false;
         }
 
         public async Task<bool> DeleteUserAsync(string id)

@@ -17,7 +17,9 @@ namespace E.D.Y_Serivce.Implementations
                 Name = Course.Name,
                 CreateDate = Course.CreateDate, 
                 CreateBy = Course.CreateBy,
-                TimeLearning = Course.TimeLearning
+                TimeLearning = Course.TimeLearning,
+                Picture = Course.Picture,
+                CateId = Course.CateId,
             };
             var result = await CourseRepository.Instance.InsertAsync(newCourse);
             return result;

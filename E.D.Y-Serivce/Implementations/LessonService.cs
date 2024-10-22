@@ -55,5 +55,10 @@ namespace E.D.Y_Serivce.Implementations
             var result = await LessonRepository.Instance.UpdateAsync(lesson);
             return result;
         }
+
+        public async Task<List<Lesson>> GetLessonsByCourseIDAsync(int id)
+        {
+          return  await LessonRepository.Instance.GetLessonByCourseID(id);
+        }
     }
 }

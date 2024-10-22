@@ -18,10 +18,22 @@ namespace E.D.Y_Learning_System.Controllers
 
         // GET: api/Lesson
         [HttpGet]
-        [Authorize(Policy = "Student")]
+        //[Authorize(Policy = "Student")]
         public async Task<IActionResult> GetLessons()
         {
             var lessons = await _lessonService.GetAllLessonsAsync();
+            if (lessons == null)
+                return NotFound();
+
+            return Ok(lessons);
+        }
+
+
+        [HttpGet("Course/{courseid}")]
+        // [Authorize(Policy = "Student")]
+        public async Task<IActionResult> GetLessonsOfAnCourse(int courseid)
+        {
+            var lessons = await _lessonService.GetLessonsByCourseIDAsync(courseid);
             if (lessons == null)
                 return NotFound();
 

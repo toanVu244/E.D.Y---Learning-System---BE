@@ -28,5 +28,10 @@ namespace E.D.Y_Repository.Implementaions
         {
             return await _context.Lessons.SingleOrDefaultAsync(l => l.LessonId == id);
         }
+
+        public async Task<List<Lesson>> GetLessonByCourseID(int id)
+        {
+            return await _context.Lessons.Where(l => l.CourseId == id).ToListAsync();
+        }
     }
 }

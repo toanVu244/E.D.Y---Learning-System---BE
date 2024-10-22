@@ -14,6 +14,9 @@ namespace E.D.Y_Serivce.Interfaces
         Task<bool> DeleteLessonAsync(int id);
         Task<Lesson> GetLessonByIdAsync(int id);
         Task<List<Lesson>> GetAllLessonsAsync();
+
+        Task<List<Lesson>> GetLessonsByCourseIDAsync(int id);
+
         Task<bool> UpdateLessonAsync(LessonViewModel lesson);
     }
 }
