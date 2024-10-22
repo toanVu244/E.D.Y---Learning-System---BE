@@ -1,4 +1,5 @@
 ﻿using BusinessObject.Entities;
+using E.D.Y_Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Implementaions
 {
-    public class LessonRepository : GenericRepository<Lesson>
+    public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
     {
         private static LessonRepository _instance;
 

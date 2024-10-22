@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace E.D.Y_Repository.Implementaions
 {
-    public class UserCourseRepository: GenericRepository<UserCourse>, IUserCourseRepository
+    public class FeedbackRepository : GenericRepository<Feedback>, IFeedbackRepository
     {
-        private static UserCourseRepository _instance;
+        private static FeedbackRepository _instance;
 
-        public static UserCourseRepository Instance
+        private static FeedbackRepository Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new UserCourseRepository();
+                    _instance = new FeedbackRepository();
                 }
                 return _instance;
             }
         }
 
-        public async Task<UserCourse> GetUserCourseByID(int id)
+        public async Task<Feedback> GetFeedbackByID(int id)
         {
-            return await _context.UserCourses.SingleOrDefaultAsync(l => l.Id == id);
+            return await _context.Feedbacks.SingleOrDefaultAsync(x => x.FeedbackId == id);  
         }
     }
 }

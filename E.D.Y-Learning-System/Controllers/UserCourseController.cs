@@ -1,4 +1,5 @@
-﻿using E.D.Y_Serivce.Interfaces;
+﻿using BusinessObject.Entities;
+using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,13 @@ namespace E.D.Y_Learning_System.Controllers
     public class UserCourseController : ControllerBase
     {
         private readonly IUserCourseService _UserCourseService;
+        private readonly ICourseService _CourseService;
+       
 
-        public  UserCourseController(IUserCourseService UserCourseService)
+        public  UserCourseController(IUserCourseService UserCourseService, ICourseService courseService)
         {
             _UserCourseService = UserCourseService;
+            _CourseService = courseService;
         }
 
         [HttpGet("get-all-UserCourse")]
@@ -36,8 +40,35 @@ namespace E.D.Y_Learning_System.Controllers
             }
         }
 
-        [HttpPost("add-UserCourse")]
-        public async Task<IActionResult> AddUserToCourse(UserCourseViewModel UserCourse)
+
+        [HttpPost("add-UserToCourse")]
+        public async Task<IActionResult> AddUserToCourse(int Courseid,string UserID)
+        {
+            try
+            {
+                Course course = await _CourseService.GetCourseByIdAsync(Courseid);
+                UserCourseViewModel userCourse = new UserCourseViewModel()
+                {
+                    CourseId = course.CourseId,
+                    UserId = UserID,
+                    Certificate = true,
+                    EnrollDate = DateTime.Now
+                };
+                var result = await _UserCourseService.CreateUserCourseAsync(userCourse);
+                if (result != true)
+                {
+                    return NotFound();
+                }
+                return Ok("Create UserCourse Successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("add-UserNewCourse")]
+        public async Task<IActionResult> AddUserNewCourse(UserCourseViewModel UserCourse)
         {
             try
             {

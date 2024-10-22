@@ -17,7 +17,12 @@ namespace E.D.Y_Serivce.Tools
             CreateMap<UserRegister, User>();
             CreateMap<UserCourse,UserCourseViewModel>();
             CreateMap<UserCourseViewModel, UserCourse>();
-
+            CreateMap<Notification, NotificationViewModel>();
+            CreateMap<NotificationViewModel, Notification>();
+            CreateMap<Feedback, FeedbackViewModel>();
+            CreateMap<FeedbackViewModel, Feedback>();
+            CreateMap<Category, CategoryViewModel>();
+            CreateMap<CategoryViewModel, Category>();
         }
 
     }

@@ -9,5 +9,6 @@ namespace E.D.Y_Repository.Interfaces
 {
     public interface ICourseRepository: IGenericRepository<Course>
     {
+        public Task<Course> GetCourseByID(int id);
     }
 }
