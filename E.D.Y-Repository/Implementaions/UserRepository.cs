@@ -38,5 +38,10 @@ namespace E.D.Y_Repository.Implementaions
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
+
+        public async Task<List<User>> getUserCourse()
+        {
+            return await _context.Users.Include(i => i.UserCourses).ToListAsync();
+        }
     }
 }

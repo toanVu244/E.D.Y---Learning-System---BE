@@ -12,6 +12,7 @@ namespace E.D.Y_Serivce.Interfaces
     public interface IUserService
     {
         public Task<List<User>> GetAllUserAsync();
+        public Task<List<User>> GetAllUserCourse();
         public Task<User> GetUserByIdAsync(string id);
         public Task<bool> CreateUserAsync(UserRegister User);
         public Task<bool> UpdateUserAsync(User User);

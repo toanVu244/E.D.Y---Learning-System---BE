@@ -32,7 +32,11 @@ namespace E.D.Y_Serivce.Implementations
             int nextNumber = currentNumber + 1;
             string nextId = "U" + nextNumber.ToString("D3");
             mapUser.UserId = nextId;
-            mapUser.Role = "Student";
+            if(mapUser.Role == null)
+            {
+                mapUser.Role = "Student";
+            }
+            
 
             User validemail = await UserRepository.Instance.getUserbyEmail(user.Email);
             if (validemail == null) {
@@ -51,6 +55,11 @@ namespace E.D.Y_Serivce.Implementations
         {
 
             return await UserRepository.Instance.GetAllAsync();
+        }
+        public async Task<List<User>> GetAllUserCourse()
+        {
+
+            return await UserRepository.Instance.getUserCourse();
         }
 
         public async Task<User> GetUserByEmailAndPassAsync(string email, string pass)

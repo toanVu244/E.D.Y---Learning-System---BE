@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BusinessObject.Entities;
 
@@ -14,8 +15,8 @@ public partial class UserCourse
     public DateTime EnrollDate { get; set; }
 
     public bool Certificate { get; set; }
-
+    [JsonIgnore]
     public virtual Course Course { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual User User { get; set; } = null!;
 }
