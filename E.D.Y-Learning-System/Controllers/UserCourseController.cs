@@ -41,6 +41,25 @@ namespace E.D.Y_Learning_System.Controllers
             }
         }
 
+        [HttpGet("get-UserCourses-byUID")]
+        public async Task<IActionResult> GetAllUserCourseByUIDAsync(string uid)
+        {
+            try
+            {
+                var UserCourses = await _UserCourseService.GetUserCoursesByUIdAsync(uid);
+                if (UserCourses == null || UserCourses.Count == 0)
+                {
+                    return NotFound();
+                }
+                return Ok(UserCourses);
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPost("add-UserToCourse")]
         public async Task<IActionResult> AddUserToCourse(int Courseid,string UserID)

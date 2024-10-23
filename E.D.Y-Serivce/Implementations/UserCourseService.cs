@@ -48,6 +48,19 @@ namespace E.D.Y_Serivce.Implementations
             return mapUserCourse;
         }
 
+        public async Task<List<UserCourseViewModel>> GetUserCoursesByUIdAsync(string id)
+        {
+            var userCourseList = await UserCourseRepository.Instance.GetUserCoursesByUID(id);
+            List<UserCourseViewModel> result = new List<UserCourseViewModel>();
+            foreach (var item in userCourseList)
+            {
+                UserCourseViewModel mapUserCourseModel = mapper.Map<UserCourseViewModel>(item);
+                result.Add(mapUserCourseModel);
+            }
+            return result;
+
+        }
+
         public async Task<bool> UpdateUserCourseAsync(UserCourseViewModel UserCourse)
         {
             UserCourse mapUserCourse = mapper.Map<UserCourse>(UserCourse);
