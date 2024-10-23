@@ -23,6 +23,8 @@ namespace E.D.Y_Serivce.Tools
             CreateMap<FeedbackViewModel, Feedback>();
             CreateMap<Category, CategoryViewModel>();
             CreateMap<CategoryViewModel, Category>();
+            CreateMap<Payment, PaymentViewModel>();
+            CreateMap<PaymentViewModel, Payment>();
         }
 
     }

@@ -19,7 +19,7 @@ public partial class Course
 
     public string? Picture { get; set; }
 
-    public virtual Category? Cate { get; set; }
+    public double? Money { get; set; }
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 

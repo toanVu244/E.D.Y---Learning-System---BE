@@ -12,12 +12,13 @@ namespace E.D.Y_Learning_System.Controllers
     {
         private readonly IUserCourseService _UserCourseService;
         private readonly ICourseService _CourseService;
-       
+        private readonly IPaymentService _PaymentService;
 
-        public  UserCourseController(IUserCourseService UserCourseService, ICourseService courseService)
+        public  UserCourseController(IUserCourseService UserCourseService, ICourseService courseService, IPaymentService paymentService)
         {
             _UserCourseService = UserCourseService;
             _CourseService = courseService;
+            _PaymentService = paymentService;
         }
 
         [HttpGet("get-all-UserCourse")]
@@ -54,12 +55,24 @@ namespace E.D.Y_Learning_System.Controllers
                     Certificate = true,
                     EnrollDate = DateTime.Now
                 };
-                var result = await _UserCourseService.CreateUserCourseAsync(userCourse);
-                if (result != true)
+                PaymentViewModel payment = new PaymentViewModel()
                 {
-                    return NotFound();
+                    UserId = UserID,
+                    Title = "Buy Course " + course.Name + " Successfully",
+                    Date = DateTime.Now,
+                    Money = (double)course.Money
+                };
+                var paymentResult = await _PaymentService.CreatePaymentAsync(payment);
+                if (paymentResult)
+                {
+                    var result = await _UserCourseService.CreateUserCourseAsync(userCourse);
+                    if (result == true)
+                    {
+                        return Ok("Successfully payment. Add User to Course Successfully");
+                        
+                    }
                 }
-                return Ok("Create UserCourse Successfully");
+                return BadRequest();
             }
             catch (Exception ex)
             {

@@ -91,14 +91,11 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.CateId).HasColumnName("cateID");
             entity.Property(e => e.CreateBy).HasMaxLength(10);
             entity.Property(e => e.CreateDate).HasColumnType("date");
+            entity.Property(e => e.Money).HasColumnName("money");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Picture)
                 .HasMaxLength(500)
                 .HasColumnName("picture");
-
-            entity.HasOne(d => d.Cate).WithMany(p => p.Courses)
-                .HasForeignKey(d => d.CateId)
-                .HasConstraintName("FK_Course_Category");
         });
 
         modelBuilder.Entity<DetailScore>(entity =>
