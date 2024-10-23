@@ -34,6 +34,7 @@ namespace E.D.Y_Serivce.Implementations
             mapUser.UserId = nextId;
             mapUser.Role = "Student";
 
+            mapUser.Password = HashAndTruncatePassword(mapUser.Password);   
             User validemail = await UserRepository.Instance.getUserbyEmail(user.Email);
             if (validemail == null) {
                 return await UserRepository.Instance.InsertAsync(mapUser);
@@ -49,7 +50,6 @@ namespace E.D.Y_Serivce.Implementations
 
         public async Task<List<User>> GetAllUserAsync()
         {
-
             return await UserRepository.Instance.GetAllAsync();
         }
 
@@ -60,7 +60,9 @@ namespace E.D.Y_Serivce.Implementations
 
         public async Task<bool> UpdateUserAsync(User user)
         {
-            return await UserRepository.Instance.UpdateAsync(user);
+            User mapUser = mapper.Map<User>(user);
+            mapUser.Password = HashAndTruncatePassword(mapUser.Password);
+            return await UserRepository.Instance.UpdateAsync(mapUser);
         }
 
         public string HashAndTruncatePassword(string password)

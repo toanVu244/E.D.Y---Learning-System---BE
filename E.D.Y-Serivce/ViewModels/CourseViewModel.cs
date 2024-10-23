@@ -19,6 +19,11 @@ namespace E.D.Y_Serivce.ViewModels
         public int TimeLearning { get; set; }
      
         public int? CateId { get; set; }
+        public double? Money { get; set; }
+
+        public string? CateName { get; set; }
+
+        public double? Money { get; set; }
 
         public string? Picture { get; set; }
     }

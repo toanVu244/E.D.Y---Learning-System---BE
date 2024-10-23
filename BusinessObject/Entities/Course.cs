@@ -21,6 +21,8 @@ public partial class Course
 
     public double? Money { get; set; }
 
+    public virtual Category? Cate { get; set; }
+
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();

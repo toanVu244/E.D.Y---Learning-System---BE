@@ -1,27 +1,26 @@
-﻿using BusinessObject.Entities;
+﻿using AutoMapper;
+using BusinessObject.Entities;
 using E.D.Y_Repository.Implementaions;
 using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace E.D.Y_Serivce.Implementations
 {
     public class CourseService : ICourseService
     {
+        private readonly IMapper mapper;
+        public CourseService(IMapper mapper)
+        {
+            this.mapper = mapper;
+        }
         public async Task<bool> CreateCourseAsync(CourseViewModel Course)
         {
-            Course newCourse = new Course
-            {
-                Name = Course.Name,
-                CreateDate = Course.CreateDate, 
-                CreateBy = Course.CreateBy,
-                TimeLearning = Course.TimeLearning,
-                Picture = Course.Picture,
-                CateId = Course.CateId,
-            };
-            var result = await CourseRepository.Instance.InsertAsync(newCourse);
+            Course mapCourse = mapper.Map<Course> (Course);
+            var result = await CourseRepository.Instance.InsertAsync(mapCourse);
             return result;
         }
 
@@ -31,40 +30,30 @@ namespace E.D.Y_Serivce.Implementations
             return result;
         }
 
-        public async Task<Course> GetCourseByIdAsync(int id)
+        public async Task<CourseViewModel> GetCourseByIdAsync(int id)
         {
-            var result = await CourseRepository.Instance.GetCourseByID(id);
-            return result;
+            CourseViewModel courseViewModel = mapper.Map<CourseViewModel>(await CourseRepository.Instance.GetByIdAsync(id));
+            return courseViewModel;
         }
 
-        public async Task<List<Course>> GetAllCourseAsync()
+        public async Task<List<CourseViewModel>> GetAllCourseAsync()
         {
-            var result = await CourseRepository.Instance.GetAllAsync();
+            var CourseList = await CourseRepository.Instance.GetAllAsync();
+            List<CourseViewModel> result = new List<CourseViewModel>();
+            foreach (var item in CourseList)
+            {
+                CourseViewModel CourseViewModel = mapper.Map<CourseViewModel>(item);
+                Category category = await CategoryRepository.Instance.GetByIdAsync(item.CateId);
+                CourseViewModel.CateName = category.Name;
+                result.Add(CourseViewModel);
+            }
             return result;
         }
 
         public async Task<bool> UpdateCourseAsync(CourseViewModel CourseModel)
         {
-            try
-            {
-                var course = await GetCourseByIdAsync(CourseModel.CourseId);  // Use CourseId to fetch the course
-                if (course == null)
-                {
-                    return false;
-                }
-                course.Name = CourseModel.Name;
-                course.CreateDate = CourseModel.CreateDate;  // Convert string to DateTime
-                course.CreateBy = CourseModel.CreateBy;
-                course.TimeLearning = CourseModel.TimeLearning;
-
-                var result = await CourseRepository.Instance.UpdateAsync(course);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return false;
-            }
+            Course mapCourse = mapper.Map<Course>(CourseModel);
+            return await CourseRepository.Instance.UpdateAsync(mapCourse);
         }
     }
 }
