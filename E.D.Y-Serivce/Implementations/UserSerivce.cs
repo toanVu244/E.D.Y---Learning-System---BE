@@ -32,8 +32,10 @@ namespace E.D.Y_Serivce.Implementations
             int nextNumber = currentNumber + 1;
             string nextId = "U" + nextNumber.ToString("D3");
             mapUser.UserId = nextId;
-            mapUser.Role = "Student";
-
+            if (mapUser.Role == null)
+            {
+                mapUser.Role = "Student";
+            }
             mapUser.Password = HashAndTruncatePassword(mapUser.Password);   
             User validemail = await UserRepository.Instance.getUserbyEmail(user.Email);
             if (validemail == null) {
