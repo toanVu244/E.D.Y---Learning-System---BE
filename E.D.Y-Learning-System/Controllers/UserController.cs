@@ -35,23 +35,6 @@ namespace E.D.Y_Learning_System.Controllers
             {
                 return StatusCode(500, new { message = "An error occurred.", error = ex.Message });
             }
-
-        }
-        [HttpGet("courses")]
-        public async Task<IActionResult> GetAllUserCourse()
-        {
-            try
-            {
-                var users = await _userService.GetAllUserCourse();
-                if (users == null || !users.Any())
-                    return NotFound(new { message = "No users found." });
-
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "An error occurred.", error = ex.Message });
-            }
         }
 
 
