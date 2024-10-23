@@ -66,7 +66,7 @@ namespace E.D.Y_Learning_System.Controllers
         {
             try
             {
-                Course course = await _CourseService.GetCourseByIdAsync(Courseid);
+                CourseViewModel course = await _CourseService.GetCourseByIdAsync(Courseid);
                 UserCourseViewModel userCourse = new UserCourseViewModel()
                 {
                     CourseId = course.CourseId,

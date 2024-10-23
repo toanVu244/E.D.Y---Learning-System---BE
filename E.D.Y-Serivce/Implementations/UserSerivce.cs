@@ -57,7 +57,7 @@ namespace E.D.Y_Serivce.Implementations
             return await UserRepository.Instance.getUserbyEmailAndPass(email, pass);
         }
 
-        public async Task<bool> UpdateUserAsync(UserRegister user)
+        public async Task<bool> UpdateUserAsync(User user)
         {
             User mapUser = mapper.Map<User>(user);
             mapUser.Password = HashAndTruncatePassword(mapUser.Password);

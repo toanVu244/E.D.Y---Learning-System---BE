@@ -33,7 +33,7 @@ namespace E.D.Y_Serivce.Implementations
         {
             var feedbackList = await FeedbackRepository.Instance.GetAllAsync();
             List<FeedbackViewModel> result = new List<FeedbackViewModel>();
-            foreach (var item in result)
+            foreach (var item in feedbackList)
             {
                 FeedbackViewModel feedbackViewModel = mapper.Map<FeedbackViewModel>(item);
                 result.Add(feedbackViewModel);
