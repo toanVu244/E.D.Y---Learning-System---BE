@@ -25,6 +25,8 @@ namespace E.D.Y_Serivce.Tools
             CreateMap<CategoryViewModel, Category>();
             CreateMap<Payment, PaymentViewModel>();
             CreateMap<PaymentViewModel, Payment>();
+            CreateMap<Course, CourseViewModel>();
+            CreateMap<CourseViewModel, Course>();
         }
 
     }

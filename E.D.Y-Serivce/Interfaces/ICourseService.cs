@@ -10,8 +10,8 @@ namespace E.D.Y_Serivce.Interfaces
 {
     public interface ICourseService
     {
-        public Task<List<Course>> GetAllCourseAsync();
-        public Task<Course> GetCourseByIdAsync(int id);
+        public Task<List<CourseViewModel>> GetAllCourseAsync();
+        public Task<CourseViewModel> GetCourseByIdAsync(int id);
         public Task<bool> CreateCourseAsync(CourseViewModel Course);
         public Task<bool> UpdateCourseAsync(CourseViewModel Course);
         public Task<bool> DeleteCourseAsync(int id);
