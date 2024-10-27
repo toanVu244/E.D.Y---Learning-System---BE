@@ -5,6 +5,7 @@ using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,36 @@ namespace E.D.Y_Serivce.Implementations
         {
             Payment mapPayment = mapper.Map<Payment>(Payment);
             return await PaymentRepository.Instance.UpdateAsync(mapPayment);
+        }
+
+        public async Task<PaymentResponse> CreateVNPayPayment(PaymentRequest paymentRequest)
+        {
+            using (var transaction = await PaymentRepository.Instance.BeginTransactionAsync())
+            {
+                try
+                {
+                    var payment = new Payment()
+                    {
+                        PaymentMethod = "VNPay",
+                        BankCode = paymentRequest.vnp_BankCode,
+                        BankTranNo = paymentRequest.vnp_BankTranNo,
+                        CardType = paymentRequest.vnp_CardType,
+                        PaymentInfo = paymentRequest.vnp_OrderInfo,
+                        Date = DateTime.ParseExact(paymentRequest.vnp_PayDate, "yyyyMMddHHmmss", CultureInfo.InvariantCulture),
+                        TransactionNo = paymentRequest.vnp_TransactionNo,
+                        TransactionStatus = int.Parse(paymentRequest.vnp_TransactionStatus),
+                        Money = double.Parse(paymentRequest.vnp_Amount) / 100,
+                        UserId = paymentRequest.userID
+                    };
+                    await PaymentRepository.Instance.InsertAsync(payment);
+                    return mapper.Map<PaymentResponse>(payment);
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw new Exception(ex.Message);
+                }
+            }
         }
     }
 }

@@ -29,8 +29,6 @@ public partial class User
 
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
-
     public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
 
     public virtual ICollection<UserAchivement> UserAchivements { get; set; } = new List<UserAchivement>();

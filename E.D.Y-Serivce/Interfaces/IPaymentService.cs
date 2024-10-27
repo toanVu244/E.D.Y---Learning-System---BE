@@ -15,5 +15,6 @@ namespace E.D.Y_Serivce.Interfaces
         public Task<bool> CreatePaymentAsync(PaymentViewModel Payment);
         public Task<bool> UpdatePaymentAsync(PaymentViewModel Payment);
         public Task<bool> DeletePaymentAsync(int id);
+        public Task<PaymentResponse> CreateVNPayPayment(PaymentRequest paymentRequest);
     }
 }

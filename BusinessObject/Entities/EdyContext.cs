@@ -179,15 +179,11 @@ public partial class EdyContext : DbContext
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.Money).HasColumnName("money");
-            entity.Property(e => e.Title).HasMaxLength(50);
+            entity.Property(e => e.PaymentMethod).HasMaxLength(100);
+            entity.Property(e => e.Title).HasMaxLength(100);
             entity.Property(e => e.UserId)
                 .HasMaxLength(10)
                 .HasColumnName("UserID");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Payment_User");
         });
 
         modelBuilder.Entity<Question>(entity =>
