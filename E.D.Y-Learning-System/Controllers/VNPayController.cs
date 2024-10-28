@@ -21,19 +21,19 @@ namespace E.D.Y_Learning_System.Controllers
         {
             try
             {
-                string appScheme = "rolexauthorizedstore";
+                string appScheme = "http://localhost:5001/";
 
                 if (parameters.vnp_BankTranNo == null)
                 {
-                    string redirectUrl = $"{appScheme}://payment-failed?orderId={parameters.vnp_TxnRef}";
+                    string redirectUrl = $"{appScheme}://payment-failed?";
 
                     return Redirect(redirectUrl);
                 }
-                var result = await _paymentService.CreateVNPayPayment(parameters);
+                var result = await _paymentService.UpdateVNPayPayment(parameters);
 
                 if (result != null)
                 {
-                    string redirectUrl = $"{appScheme}://payment-success?status={result.TransactionStatus}&orderId={result.OrderId}";
+                    string redirectUrl = $"{appScheme}://payment-success?";
 
                     return Redirect(redirectUrl);
                 }

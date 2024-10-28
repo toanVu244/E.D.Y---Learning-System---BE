@@ -15,17 +15,21 @@ public partial class Payment
 
     public string Title { get; set; } = null!;
 
-    public string PaymentMethod { get; set; } = null!;
+    public string? PaymentMethod { get; set; }
 
-    public string BankCode { get; set; } = null!;
+    public string? BankCode { get; set; }
 
-    public string BankTranNo { get; set; } = null!;
+    public string? BankTranNo { get; set; }
 
-    public string CardType { get; set; } = null!;
+    public string? CardType { get; set; }
 
-    public string PaymentInfo { get; set; } = null!;
+    public string? PaymentInfo { get; set; }
 
-    public int TransactionStatus { get; set; }
+    public int? TransactionStatus { get; set; }
 
-    public string TransactionNo { get; set; } = null!;
+    public string? TransactionNo { get; set; }
+
+    public DateTime ExpiredDate { get; set; }
+
+    public int Status { get; set; }
 }

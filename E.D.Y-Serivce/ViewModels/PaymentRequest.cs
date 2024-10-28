@@ -20,7 +20,6 @@ namespace E.D.Y_Serivce.ViewModels
         public string? vnp_TransactionStatus { get; set; }
         public string? vnp_TxnRef { get; set; }
         public string? vnp_SecureHash { get; set; }
-
         public string? userID { get; set; }
     }
 }
