@@ -34,5 +34,13 @@ namespace E.D.Y_Repository.Implementaions
         {
             return await _context.UserCourses.Where(u=>u.UserId.Equals(id)).ToListAsync();
         }
+
+        public async Task<bool> UpdateUserCourseCertificateByID(int id)
+        {
+            UserCourse userCourse = await _context.UserCourses.FirstOrDefaultAsync(l => l.Id == id);
+            userCourse.Certificate = true;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

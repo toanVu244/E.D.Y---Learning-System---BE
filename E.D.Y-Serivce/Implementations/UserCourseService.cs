@@ -61,6 +61,11 @@ namespace E.D.Y_Serivce.Implementations
 
         }
 
+        public async Task<bool> UpdateUserCertificateAsync(int UserCourse)
+        {
+            return await UserCourseRepository.Instance.UpdateUserCourseCertificateByID(UserCourse);
+        }
+
         public async Task<bool> UpdateUserCourseAsync(UserCourseViewModel UserCourse)
         {
             UserCourse mapUserCourse = mapper.Map<UserCourse>(UserCourse);

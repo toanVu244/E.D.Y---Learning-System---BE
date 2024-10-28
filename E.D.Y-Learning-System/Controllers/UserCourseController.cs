@@ -71,10 +71,16 @@ namespace E.D.Y_Learning_System.Controllers
                 {
                     CourseId = course.CourseId,
                     UserId = UserID,
-                    Certificate = true,
+                    Certificate = false,
                     EnrollDate = DateTime.Now
                 };
-                PaymentViewModel payment = new PaymentViewModel()
+                var result = await _UserCourseService.CreateUserCourseAsync(userCourse);
+                if (result == true)
+                {
+                    return Ok("Successfully payment. Add User to Course Successfully");
+
+                }
+                /*PaymentViewModel payment = new PaymentViewModel()
                 {
                     UserId = UserID,
                     Title = "Buy Course " + course.Name + " Successfully",
@@ -88,9 +94,9 @@ namespace E.D.Y_Learning_System.Controllers
                     if (result == true)
                     {
                         return Ok("Successfully payment. Add User to Course Successfully");
-                        
+
                     }
-                }
+                }*/
                 return BadRequest();
             }
             catch (Exception ex)
@@ -123,6 +129,24 @@ namespace E.D.Y_Learning_System.Controllers
             try
             {
                 var result = await _UserCourseService.UpdateUserCourseAsync(UserCourse);
+                if (result != true)
+                {
+                    return NotFound();
+                }
+                return Ok("Update UserCourse Successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("edit-UserCourse-Certificate")]
+        public async Task<IActionResult> UpdateUserCourseCertificate(int UserCourseId)
+        {
+            try
+            {
+                var result = await _UserCourseService.UpdateUserCertificateAsync(UserCourseId);
                 if (result != true)
                 {
                     return NotFound();

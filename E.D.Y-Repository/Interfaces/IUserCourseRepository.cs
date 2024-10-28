@@ -11,5 +11,7 @@ namespace E.D.Y_Repository.Interfaces
     {
         public Task<UserCourse> GetUserCourseByID(int id);
         public Task<List<UserCourse>> GetUserCoursesByUID(string id);
+
+        public Task<bool> UpdateUserCourseCertificateByID(int id);
     }
 }

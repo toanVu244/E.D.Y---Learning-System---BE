@@ -16,5 +16,6 @@ namespace E.D.Y_Serivce.Interfaces
         Task<List<UserCourseViewModel>> GetUserCoursesByUIdAsync(string id);
         Task<List<UserCourseViewModel>> GetAllUserCoursesAsync();
         Task<bool> UpdateUserCourseAsync(UserCourseViewModel UserCourse);
+        Task<bool> UpdateUserCertificateAsync(int UserCourseId);
     }
 }
