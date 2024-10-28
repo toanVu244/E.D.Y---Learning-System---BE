@@ -21,11 +21,11 @@ namespace E.D.Y_Learning_System.Controllers
         {
             try
             {
-                string appScheme = "http://localhost:5001/";
+                string appScheme = "http://localhost:5001";
 
                 if (parameters.vnp_BankTranNo == null)
                 {
-                    string redirectUrl = $"{appScheme}://payment-failed?";
+                    string redirectUrl = $"{appScheme}/payment-failed?";
 
                     return Redirect(redirectUrl);
                 }
@@ -33,7 +33,7 @@ namespace E.D.Y_Learning_System.Controllers
 
                 if (result != null)
                 {
-                    string redirectUrl = $"{appScheme}://payment-success?";
+                    string redirectUrl = $"{appScheme}/payment-success?";
 
                     return Redirect(redirectUrl);
                 }
