@@ -13,7 +13,23 @@ public partial class Payment
 
     public DateTime Date { get; set; }
 
-    public string? Title { get; set; }
+    public string Title { get; set; } = null!;
 
-    public virtual User User { get; set; } = null!;
+    public string? PaymentMethod { get; set; }
+
+    public string? BankCode { get; set; }
+
+    public string? BankTranNo { get; set; }
+
+    public string? CardType { get; set; }
+
+    public string? PaymentInfo { get; set; }
+
+    public int? TransactionStatus { get; set; }
+
+    public string? TransactionNo { get; set; }
+
+    public DateTime ExpiredDate { get; set; }
+
+    public int Status { get; set; }
 }

@@ -63,11 +63,7 @@ namespace E.D.Y_Learning_System.Controllers
             try
             {
                 var result = await _PaymentService.CreatePaymentAsync(Payment);
-                if (result != true)
-                {
-                    return NotFound();
-                }
-                return Ok("Create Payment Successfully");
+                return Ok(result);
             }
             catch (Exception ex)
             {

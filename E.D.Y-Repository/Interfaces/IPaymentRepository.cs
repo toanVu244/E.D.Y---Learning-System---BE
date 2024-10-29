@@ -10,6 +10,5 @@ namespace E.D.Y_Repository.Interfaces
     public interface IPaymentRepository: IGenericRepository<Payment>
     {
         public Task<List<Payment>> getAllPaymentsbyUID(string key);
-
     }
 }

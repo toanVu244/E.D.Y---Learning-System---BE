@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "http": {
+    "EDY_LearningSystem": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
@@ -19,7 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "https": {
+    "EDY_LearningSystems": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
