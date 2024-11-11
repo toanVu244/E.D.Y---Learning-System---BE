@@ -2,6 +2,9 @@ using E.D.Y_Serivce.Implementations;
 using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.Tools;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -120,7 +123,7 @@ builder.Services.AddAuthentication(item =>
     item.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(item =>
 {
-    item.RequireHttpsMetadata = true;
+    item.RequireHttpsMetadata = false;
     item.SaveToken = true;
     item.TokenValidationParameters = new TokenValidationParameters()
     {
@@ -135,14 +138,11 @@ builder.Services.AddAuthentication(item =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 app.UseCors("AllowAllOrigins");
 
-app.UseHttpsRedirection();
+/*app.UseHttpsRedirection();*/
 
 app.UseAuthorization();
 
