@@ -16,5 +16,6 @@ namespace E.D.Y_Serivce.Interfaces
         public Task<bool> UpdatePaymentAsync(PaymentViewModel Payment);
         public Task<bool> DeletePaymentAsync(int id);
         public Task<PaymentResponse> UpdateVNPayPayment(PaymentRequest paymentRequest);
+        public Task<string> RequestWithPayOsAsync(string accountId, decimal amount);
     }
 }

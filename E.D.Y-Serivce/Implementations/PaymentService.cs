@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Transactions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using E.D.Y_Serivce.Tools.payOS;
+using Net.payOS.Types;
 
 namespace E.D.Y_Serivce.Implementations
 {
@@ -22,10 +24,43 @@ namespace E.D.Y_Serivce.Implementations
     {
         private readonly IMapper mapper;
         private readonly IConfiguration _configuration;
-        public PaymentService(IMapper mapper, IConfiguration configuration)
+        private readonly PayOSService _payOSService;
+
+        public PaymentService(IMapper mapper, IConfiguration configuration, PayOSService payOSService)
         {
             this.mapper = mapper;
             _configuration = configuration;
+            _payOSService = payOSService;
+        }
+
+        public async Task<string> RequestWithPayOsAsync(string accountId, decimal amount)
+        {
+            var items = new List<ItemData>
+            {
+                new ItemData("NẠP TIỀN VÀO HỆ THỐNG", 1, (int)amount)
+            };
+
+            long orderCode = long.Parse(DateTimeOffset.Now.ToString("yyMMddHHmmss"));
+
+
+            var payOSModel = new PaymentData(
+                orderCode: orderCode,
+                amount: (int)amount,
+                description: "Thanh toan don hang",
+                items: items,
+                returnUrl: "http://edy-learning.id.vn/membership",
+                cancelUrl: "http://edy-learning.id.vn/membership"
+            );
+
+
+            var paymentUrl = await _payOSService.CreatePaymentLink(payOSModel);
+
+
+            if (paymentUrl != null)
+            {
+                return paymentUrl.checkoutUrl;
+            }
+            return "Create URL failed";
         }
 
         public async Task<string> CreatePaymentAsync(PaymentViewModel Payment)
@@ -45,7 +80,7 @@ namespace E.D.Y_Serivce.Implementations
                         ExpiredDate = DateTime.Now.AddDays(1),
                     };
                     await PaymentRepository.Instance.InsertAsync(order);
-                    var paymentUrl = CreateVnpayLink(order);
+                    var paymentUrl = await RequestWithPayOsAsync(order.UserId, (decimal)order.Money);
                     await transaction.CommitAsync();
                     return paymentUrl;
                 }

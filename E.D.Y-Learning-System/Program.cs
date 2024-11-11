@@ -1,6 +1,7 @@
 using E.D.Y_Serivce.Implementations;
 using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.Tools;
+using E.D.Y_Serivce.Tools.payOS;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
@@ -41,6 +42,14 @@ builder.Services.AddSwaggerGen(options =>
                     }
                 });
 });
+builder.Services.AddSingleton(x =>
+    new PayOSService(
+        builder.Configuration["payOS:clientId"],
+        builder.Configuration["payOS:apiKey"],
+        builder.Configuration["payOS:checksumKey"]
+    )
+);
+
 builder.Services.AddScoped<IAchivementService, AchivementService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -49,7 +58,7 @@ builder.Services.AddScoped<IUserCourseService, UserCourseService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();  
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddAutoMapper(typeof(MappingSetting));
 
 builder.Services.AddAuthorization(options =>
