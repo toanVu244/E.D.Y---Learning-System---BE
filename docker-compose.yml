@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  e.d.y-learning-system:
+    image: ${DOCKER_REGISTRY-}edylearningsystem
+    build:
+      context: .
+      dockerfile: E.D.Y-Learning-System/Dockerfile
+    ports:
+    - "5279:5279"
+    depends_on:
+    - sql-server-2022
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+    - productnetwork
+    restart: on-failure
+
+  sql-server-2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server-2022
+    ports:
+      - "1435:1433"
+    environment:
+      SA_PASSWORD: "@Dmin12345"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+    networks:
+      - productnetwork
+
+networks:
+   productnetwork:
+volumes:
+   sqlserverdata:
