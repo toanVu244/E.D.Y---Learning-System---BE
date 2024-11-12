@@ -52,8 +52,19 @@ namespace E.D.Y_Serivce.Implementations
 
         public async Task<bool> UpdateCourseAsync(CourseViewModel CourseModel)
         {
-            Course mapCourse = mapper.Map<Course>(CourseModel);
-            return await CourseRepository.Instance.UpdateAsync(mapCourse);
+            var existingCourse = await CourseRepository.Instance.GetByIdAsync(CourseModel.CourseId);
+            if (existingCourse == null)
+            {
+                return false;
+            }
+            existingCourse.Name = CourseModel.Name;
+            existingCourse.CreateDate = CourseModel.CreateDate;
+            existingCourse.CreateBy = CourseModel.CreateBy;
+            existingCourse.TimeLearning = CourseModel.TimeLearning;
+            existingCourse.CateId = CourseModel.CateId;
+            existingCourse.Money = CourseModel.Money;
+            existingCourse.Picture = CourseModel.Picture;
+            return await CourseRepository.Instance.UpdateAsync(existingCourse);
         }
     }
 }

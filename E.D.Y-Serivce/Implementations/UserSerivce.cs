@@ -60,11 +60,15 @@ namespace E.D.Y_Serivce.Implementations
             return await UserRepository.Instance.getUserbyEmailAndPass(email, pass);
         }
 
-        public async Task<bool> UpdateUserAsync(User user)
+        public async Task<bool> UpdateUserAsync(UserUpdate user)
         {
             User mapUser = mapper.Map<User>(user);
-            mapUser.Password = HashAndTruncatePassword(mapUser.Password);
-            return await UserRepository.Instance.UpdateAsync(mapUser);
+            var exitUser = await UserRepository.Instance.GetById(mapUser.UserId);
+            exitUser.Password = HashAndTruncatePassword(mapUser.Password);
+            exitUser.PhoneNumber = mapUser.PhoneNumber;
+            exitUser.FullName = mapUser.FullName;
+            exitUser.Email = mapUser.Email;
+            return await UserRepository.Instance.UpdateAsync(exitUser);
         }
 
         public string HashAndTruncatePassword(string password)

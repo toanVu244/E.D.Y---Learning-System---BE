@@ -65,7 +65,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         // PUT: api/user/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] User updatedUser)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserUpdate updatedUser)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

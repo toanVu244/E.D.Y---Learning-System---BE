@@ -15,6 +15,8 @@ namespace E.D.Y_Serivce.Tools
 
             CreateMap<User, UserRegister>();
             CreateMap<UserRegister, User>();
+            CreateMap<User, UserUpdate>();
+            CreateMap<UserUpdate, User>();
             CreateMap<UserCourse,UserCourseViewModel>();
             CreateMap<UserCourseViewModel, UserCourse>();
             CreateMap<Notification, NotificationViewModel>();
@@ -29,6 +31,7 @@ namespace E.D.Y_Serivce.Tools
             CreateMap<Payment, PaymentResponse>();
             CreateMap<Course, CourseViewModel>();
             CreateMap<CourseViewModel, Course>();
+            
         }
 
     }
