@@ -48,8 +48,8 @@ namespace E.D.Y_Serivce.Implementations
                 amount: (int)amount,
                 description: "Thanh toan don hang",
                 items: items,
-                returnUrl: "http://edy-learning.id.vn/membership",
-                cancelUrl: "http://edy-learning.id.vn/membership"
+                returnUrl: "https://e-learning-website-bay.vercel.app/payment-success",
+                cancelUrl: "https://e-learning-website-bay.vercel.app/payment-fail"
             );
 
 
