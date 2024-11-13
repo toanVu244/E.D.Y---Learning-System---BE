@@ -9,9 +9,8 @@ namespace E.D.Y_Serivce.ViewModels
     public class PaymentViewModel
     {
         public int PaymentId { get; set; }
-
         public string UserId { get; set; } = null!;
-
+        public string? UserName { get; set; }    
         public double Money { get; set; }
 
         public DateTime Date { get; set; }

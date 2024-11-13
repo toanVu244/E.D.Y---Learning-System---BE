@@ -76,7 +76,6 @@ namespace E.D.Y_Serivce.Implementations
             {
                 try
                 {
-                    // create order
                     var order = new Payment
                     {
                         Money = Payment.Money,
@@ -122,11 +121,23 @@ namespace E.D.Y_Serivce.Implementations
         {
             var PaymentList = await PaymentRepository.Instance.GetAllAsync();
             List<PaymentViewModel> result = new List<PaymentViewModel>();
+            string previousUserId = null;
+            string currentUsername = null;
+
             foreach (var Payment in PaymentList)
             {
+                if (previousUserId == null || !previousUserId.Equals(Payment.UserId))
+                {
+                    var User = await UserRepository.Instance.GetById(Payment.UserId);
+                    currentUsername = User?.FullName;
+                    previousUserId = Payment.UserId;
+                }
+
                 PaymentViewModel mapPaymentViewModel = mapper.Map<PaymentViewModel>(Payment);
+                mapPaymentViewModel.UserName = currentUsername;
                 result.Add(mapPaymentViewModel);
             }
+
             return result;
         }
 
