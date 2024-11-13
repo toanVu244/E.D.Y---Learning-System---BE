@@ -11,7 +11,6 @@ namespace E.D.Y_Learning_System.Controllers
     public class FeedbackController : ControllerBase
     {
         private readonly IFeedbackService _FeedbackService;
-
         public FeedbackController(IFeedbackService FeedbackService)
         {
             _FeedbackService = FeedbackService;
