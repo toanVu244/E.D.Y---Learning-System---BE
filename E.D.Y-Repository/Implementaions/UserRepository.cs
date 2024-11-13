@@ -26,7 +26,7 @@ namespace E.D.Y_Repository.Implementaions
 
         public async Task<User> getLastUser()
         {
-            return await _context.Users.OrderByDescending(u => u.UserId).FirstOrDefaultAsync();
+            return await _context.Users.AsNoTracking().OrderByDescending(u => u.UserId).FirstOrDefaultAsync();
         }
 
         public async Task<User> getUserbyEmailAndPass(string email, string pass)

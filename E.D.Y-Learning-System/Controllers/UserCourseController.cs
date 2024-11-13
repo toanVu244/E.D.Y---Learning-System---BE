@@ -80,23 +80,6 @@ namespace E.D.Y_Learning_System.Controllers
                     return Ok("Successfully payment. Add User to Course Successfully");
 
                 }
-                /*PaymentViewModel payment = new PaymentViewModel()
-                {
-                    UserId = UserID,
-                    Title = "Buy Course " + course.Name + " Successfully",
-                    Date = DateTime.Now,
-                    Money = (double)course.Money
-                };
-                var paymentResult = await _PaymentService.CreatePaymentAsync(payment);
-                if (paymentResult)
-                {
-                    var result = await _UserCourseService.CreateUserCourseAsync(userCourse);
-                    if (result == true)
-                    {
-                        return Ok("Successfully payment. Add User to Course Successfully");
-
-                    }
-                }*/
                 return BadRequest();
             }
             catch (Exception ex)
