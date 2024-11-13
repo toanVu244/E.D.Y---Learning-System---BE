@@ -145,9 +145,19 @@ namespace E.D.Y_Serivce.Implementations
         {
             var PaymentList = await PaymentRepository.Instance.getAllPaymentsbyUID(uid);
             List<PaymentViewModel> result = new List<PaymentViewModel>();
+            string previousUserId = null;
+            string currentUsername = null;
             foreach (var Payment in PaymentList)
             {
+                if (previousUserId == null || !previousUserId.Equals(Payment.UserId))
+                {
+                    var User = await UserRepository.Instance.GetById(Payment.UserId);
+                    currentUsername = User?.FullName;
+                    previousUserId = Payment.UserId;
+                }
+
                 PaymentViewModel mapPaymentViewModel = mapper.Map<PaymentViewModel>(Payment);
+                mapPaymentViewModel.UserName = currentUsername;
                 result.Add(mapPaymentViewModel);
             }
             return result;
@@ -155,9 +165,16 @@ namespace E.D.Y_Serivce.Implementations
 
         public async Task<PaymentViewModel> GetPaymentByIdAsync(int id)
         {
-            PaymentViewModel PaymentViewModel = mapper.Map<PaymentViewModel>(await PaymentRepository.Instance.GetByIdAsync(id));
-            return PaymentViewModel;
+            var payment = await PaymentRepository.Instance.GetByIdAsync(id);
+            PaymentViewModel paymentViewModel = mapper.Map<PaymentViewModel>(payment);
+
+            var user = await UserRepository.Instance.GetById(payment.UserId);
+
+            paymentViewModel.UserName = user?.FullName;
+
+            return paymentViewModel;
         }
+
 
         public async Task<PaymentResponse> UpdateVNPayPayment(PaymentRequest paymentRequest)
         {
