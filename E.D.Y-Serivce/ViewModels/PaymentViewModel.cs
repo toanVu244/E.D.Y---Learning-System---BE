@@ -17,5 +17,6 @@ namespace E.D.Y_Serivce.ViewModels
         public DateTime Date { get; set; }
 
         public string? Title { get; set; }
+        public string? BankCode { get; set; }   
     }
 }

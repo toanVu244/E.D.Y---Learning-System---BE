@@ -11,10 +11,16 @@ namespace E.D.Y_Learning_System.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _PaymentService;
-
-        public PaymentController(IPaymentService PaymentService)
+        private readonly IConfiguration _configuration;
+        public string PayOSClientId { get; set; } = "";
+        public string PayOSApikey { get; set; } = "";
+        public PaymentController(IPaymentService paymentService, IConfiguration configuration)
         {
-            _PaymentService = PaymentService;
+            _PaymentService = paymentService;
+            _configuration = configuration;
+            PayOSClientId = _configuration["payOS:clientId"];
+            PayOSApikey = _configuration["payOS:apiKey"];
+
         }
 
         // GET: api/<PaymentController>
@@ -68,6 +74,28 @@ namespace E.D.Y_Learning_System.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("detail-payment")]
+        public async Task<string> GetPayOSRequestInfoAsync(string orderCode)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("x-client-id", PayOSClientId);
+                client.DefaultRequestHeaders.Add("x-api-key", PayOSApikey);
+                var url = $"https://api-merchant.payos.vn/v2/payment-requests/{orderCode}";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    return responseData; // Kết quả JSON chứa thông tin thanh toán
+                }
+                else
+                {
+                    return $"Error: {response.StatusCode} - {response.ReasonPhrase}";
+                }
             }
         }
 

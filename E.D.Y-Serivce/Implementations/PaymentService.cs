@@ -33,7 +33,7 @@ namespace E.D.Y_Serivce.Implementations
             _payOSService = payOSService;
         }
 
-        public async Task<string> RequestWithPayOsAsync(string accountId, decimal amount)
+        public async Task<string> RequestWithPayOsAsync(Payment order, decimal amount)
         {
             var items = new List<ItemData>
             {
@@ -41,7 +41,8 @@ namespace E.D.Y_Serivce.Implementations
             };
 
             long orderCode = long.Parse(DateTimeOffset.Now.ToString("yyMMddHHmmss"));
-
+            order.BankCode = orderCode.ToString();
+            await PaymentRepository.Instance.InsertAsync(order);
 
             var payOSModel = new PaymentData(
                 orderCode: orderCode,
@@ -52,15 +53,21 @@ namespace E.D.Y_Serivce.Implementations
                 cancelUrl: "https://e-learning-website-bay.vercel.app/payment-fail"
             );
 
-
             var paymentUrl = await _payOSService.CreatePaymentLink(payOSModel);
-
+            
 
             if (paymentUrl != null)
             {
                 return paymentUrl.checkoutUrl;
             }
             return "Create URL failed";
+        }
+
+
+        public async Task<bool> UpdatePaymentAsync(PaymentViewModel Payment)
+        {
+            Payment mapPayment = mapper.Map<Payment>(Payment);
+            return await PaymentRepository.Instance.UpdateAsync(mapPayment);
         }
 
         public async Task<string> CreatePaymentAsync(PaymentViewModel Payment)
@@ -79,8 +86,7 @@ namespace E.D.Y_Serivce.Implementations
                         Date = DateTime.Now,
                         ExpiredDate = DateTime.Now.AddDays(1),
                     };
-                    await PaymentRepository.Instance.InsertAsync(order);
-                    var paymentUrl = await RequestWithPayOsAsync(order.UserId, (decimal)order.Money);
+                    var paymentUrl = await RequestWithPayOsAsync(order, (decimal)order.Money);
                     await transaction.CommitAsync();
                     return paymentUrl;
                 }
@@ -140,12 +146,6 @@ namespace E.D.Y_Serivce.Implementations
         {
             PaymentViewModel PaymentViewModel = mapper.Map<PaymentViewModel>(await PaymentRepository.Instance.GetByIdAsync(id));
             return PaymentViewModel;
-        }
-
-        public async Task<bool> UpdatePaymentAsync(PaymentViewModel Payment)
-        {
-            Payment mapPayment = mapper.Map<Payment>(Payment);
-            return await PaymentRepository.Instance.UpdateAsync(mapPayment);
         }
 
         public async Task<PaymentResponse> UpdateVNPayPayment(PaymentRequest paymentRequest)

@@ -1,4 +1,5 @@
-﻿using E.D.Y_Serivce.ViewModels;
+﻿using BusinessObject.Entities;
+using E.D.Y_Serivce.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,6 @@ namespace E.D.Y_Serivce.Interfaces
         public Task<bool> UpdatePaymentAsync(PaymentViewModel Payment);
         public Task<bool> DeletePaymentAsync(int id);
         public Task<PaymentResponse> UpdateVNPayPayment(PaymentRequest paymentRequest);
-        public Task<string> RequestWithPayOsAsync(string accountId, decimal amount);
+        public Task<string> RequestWithPayOsAsync(Payment order, decimal amount);
     }
 }
