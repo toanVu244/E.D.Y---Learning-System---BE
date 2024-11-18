@@ -206,7 +206,7 @@ namespace E.D.Y_Learning_System.Controllers
         {
             try
             {
-                var result = await _PaymentService.GetPaymentByIdAsync(id);
+                var result = await _PaymentService.DeletePaymentAsync(id);
                 return Ok("Delete Payment Successfully");
             }
             catch (Exception ex)
