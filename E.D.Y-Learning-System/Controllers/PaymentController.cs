@@ -27,7 +27,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         // GET: api/<PaymentController>
         [HttpGet("all-Payment")]
-        public async Task<IActionResult> GetAllPayments()
+        public async Task<IActionResult> GetAllPayment()
         {
             var payments = await _PaymentService.GetAllPaymentAsync();
             if (payments == null)
@@ -39,7 +39,6 @@ namespace E.D.Y_Learning_System.Controllers
             {
                 client.DefaultRequestHeaders.Add("x-client-id", PayOSClientId);
                 client.DefaultRequestHeaders.Add("x-api-key", PayOSApikey);
-
                 foreach (var item in payments)
                 {
                     var url = $"https://api-merchant.payos.vn/v2/payment-requests/{item.BankCode}";
@@ -52,12 +51,9 @@ namespace E.D.Y_Learning_System.Controllers
 
                             var responseJson = JsonConvert.DeserializeObject<JObject>(responseData);
 
-                            var status = responseJson["data"]?["status"]?.ToString() ?? "Unknown";
-                            var description = responseJson["data"]?["transactions"]?.FirstOrDefault()?["description"]?.ToString()
-                                      ?? "No description";
-
-                            item.Status = status;
-                            item.Description = description;
+                            item.Status = responseJson["data"]?["status"]?.ToString() ?? "Unknown";
+                            item.Description = responseJson["data"]?["transactions"]?.FirstOrDefault()?["description"]?.ToString()
+                                               ?? "No description";
                         }
                         else
                         {
@@ -70,11 +66,14 @@ namespace E.D.Y_Learning_System.Controllers
                         item.Status = "Exception";
                         item.Description = ex.Message;
                     }
+
+                    await Task.Delay(500);
                 }
             }
 
             return Ok(payments);
         }
+
 
 
         [HttpGet("all-Payment-byUID")]
@@ -103,12 +102,9 @@ namespace E.D.Y_Learning_System.Controllers
 
                             var responseJson = JsonConvert.DeserializeObject<JObject>(responseData);
 
-                            var status = responseJson["data"]?["status"]?.ToString() ?? "Unknown";
-                            var description = responseJson["data"]?["transactions"]?.FirstOrDefault()?["description"]?.ToString()
-                                      ?? "No description";
-
-                            item.Status = status;
-                            item.Description = description;
+                            item.Status = responseJson["data"]?["status"]?.ToString() ?? "Unknown";
+                            item.Description = responseJson["data"]?["transactions"]?.FirstOrDefault()?["description"]?.ToString()
+                                               ?? "No description";
                         }
                         else
                         {
@@ -121,11 +117,13 @@ namespace E.D.Y_Learning_System.Controllers
                         item.Status = "Exception";
                         item.Description = ex.Message;
                     }
+                    await Task.Delay(500);                    
                 }
             }
 
             return Ok(payments);
         }
+
 
 
         // GET api/<PaymentController>
@@ -174,7 +172,7 @@ namespace E.D.Y_Learning_System.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    return responseData; // Kết quả JSON chứa thông tin thanh toán
+                    return responseData;
                 }
                 else
                 {
