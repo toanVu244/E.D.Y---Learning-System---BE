@@ -12,9 +12,9 @@ namespace E.D.Y_Serivce.ViewModels
         public string UserId { get; set; } = null!;
         public string? UserName { get; set; }    
         public double Money { get; set; }
-
         public DateTime Date { get; set; }
-
+        public string? Status { get; set; }
+        public string? Description { get; set; }
         public string? Title { get; set; }
         public string? BankCode { get; set; }   
     }

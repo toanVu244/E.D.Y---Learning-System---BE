@@ -1,6 +1,8 @@
 ﻿using E.D.Y_Serivce.Interfaces;
 using E.D.Y_Serivce.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,24 +27,106 @@ namespace E.D.Y_Learning_System.Controllers
 
         // GET: api/<PaymentController>
         [HttpGet("all-Payment")]
-        public async Task<IActionResult> GetPayments()
+        public async Task<IActionResult> GetAllPayments()
         {
-            var users = await _PaymentService.GetAllPaymentAsync();
-            if (users == null)
+            var payments = await _PaymentService.GetAllPaymentAsync();
+            if (payments == null)
+            {
                 return NotFound();
+            }
 
-            return Ok(users);
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("x-client-id", PayOSClientId);
+                client.DefaultRequestHeaders.Add("x-api-key", PayOSApikey);
+
+                foreach (var item in payments)
+                {
+                    var url = $"https://api-merchant.payos.vn/v2/payment-requests/{item.BankCode}";
+                    try
+                    {
+                        var response = await client.GetAsync(url);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var responseData = await response.Content.ReadAsStringAsync();
+
+                            var responseJson = JsonConvert.DeserializeObject<JObject>(responseData);
+
+                            var status = responseJson["data"]?["status"]?.ToString() ?? "Unknown";
+                            var description = responseJson["data"]?["transactions"]?.FirstOrDefault()?["description"]?.ToString()
+                                      ?? "No description";
+
+                            item.Status = status;
+                            item.Description = description;
+                        }
+                        else
+                        {
+                            item.Status = $"Error: {response.StatusCode}";
+                            item.Description = response.ReasonPhrase;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        item.Status = "Exception";
+                        item.Description = ex.Message;
+                    }
+                }
+            }
+
+            return Ok(payments);
         }
+
 
         [HttpGet("all-Payment-byUID")]
         public async Task<IActionResult> GetPaymentsByUID(string uid)
         {
-            var users = await _PaymentService.GetAllPaymentByUIDAsync(uid);
-            if (users == null)
+            var payments = await _PaymentService.GetAllPaymentByUIDAsync(uid);
+            if (payments == null)
+            {
                 return NotFound();
+            }
 
-            return Ok(users);
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("x-client-id", PayOSClientId);
+                client.DefaultRequestHeaders.Add("x-api-key", PayOSApikey);
+
+                foreach (var item in payments)
+                {
+                    var url = $"https://api-merchant.payos.vn/v2/payment-requests/{item.BankCode}";
+                    try
+                    {
+                        var response = await client.GetAsync(url);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var responseData = await response.Content.ReadAsStringAsync();
+
+                            var responseJson = JsonConvert.DeserializeObject<JObject>(responseData);
+
+                            var status = responseJson["data"]?["status"]?.ToString() ?? "Unknown";
+                            var description = responseJson["data"]?["transactions"]?.FirstOrDefault()?["description"]?.ToString()
+                                      ?? "No description";
+
+                            item.Status = status;
+                            item.Description = description;
+                        }
+                        else
+                        {
+                            item.Status = $"Error: {response.StatusCode}";
+                            item.Description = response.ReasonPhrase;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        item.Status = "Exception";
+                        item.Description = ex.Message;
+                    }
+                }
+            }
+
+            return Ok(payments);
         }
+
 
         // GET api/<PaymentController>
         [HttpGet("get-Payment-by-id")]
