@@ -36,7 +36,7 @@ namespace E.D.Y_Repository.Implementaions
         {
             try
             {
-                return await _context.Set<T>().ToListAsync();
+                return await _context.Set<T>().AsNoTracking().ToListAsync();
             }
             catch (Exception e)
             {
