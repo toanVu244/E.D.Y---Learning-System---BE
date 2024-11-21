@@ -95,7 +95,7 @@ namespace E.D.Y_Learning_System.Controllers
                             item.PaymentInfo = ex.Message;
                         }
 
-                        await Task.Delay(500);
+                        await Task.Delay(2000);
                     }
                 }
             }
