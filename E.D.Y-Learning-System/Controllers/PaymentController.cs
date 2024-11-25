@@ -26,7 +26,7 @@ namespace E.D.Y_Learning_System.Controllers
 
         }
 
-        [HttpGet("all-payments")]
+        [HttpGet("all-Payment")]
         public async Task<IActionResult> GetAllPayments()
         {
             var payments = await _PaymentService.GetAllPaymentAsync();
@@ -37,7 +37,7 @@ namespace E.D.Y_Learning_System.Controllers
             return Ok(payments);
         }
 
-        [HttpGet("all-payments-byUID")]
+        [HttpGet("all-Payment-byUID")]
         public async Task<IActionResult> GetAllPaymentsByUID(string uid)
         {
             var payments = await _PaymentService.GetAllPaymentByUIDAsync(uid);
@@ -109,7 +109,7 @@ namespace E.D.Y_Learning_System.Controllers
             {
                 "PENDING" => 1,
                 "PAID" => 2,
-                "CANCELED" => 3,
+                "CANCELLED" => 3,
                 _ => 0
             };
         }
